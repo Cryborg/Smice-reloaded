@@ -8,10 +8,11 @@
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
-        "laravel/sanctum": "^2.14.1",
+        "laravel/passport": "^10.4",
         "laravel/tinker": "^2.7"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.15",
         "mockery/mockery": "^1.4.4",
