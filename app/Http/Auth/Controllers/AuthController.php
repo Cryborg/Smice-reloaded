@@ -2,6 +2,8 @@
 
 namespace App\Http\Auth\Controllers;
 
+use App\Http\Auth\Requests\AuthLoginRequest;
+use App\Http\Auth\Requests\AuthRegisterRequest;
 use App\Http\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -17,12 +19,8 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
-    public function login(Request $request): JsonResponse
+    public function login(AuthLoginRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
@@ -34,6 +32,7 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+
         return response()->json([
             'status' => 'success',
             'user' => $user,
@@ -45,14 +44,8 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request): JsonResponse
+    public function register(AuthRegisterRequest $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -60,6 +53,7 @@ class AuthController extends Controller
         ]);
 
         $token = Auth::login($user);
+
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',
@@ -74,6 +68,7 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         Auth::logout();
+
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged out',
