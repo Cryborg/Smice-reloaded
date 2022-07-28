@@ -2,15 +2,18 @@
 #  ONLY FOR USE ON DEV !!!! #
 #############################
 
+# Stop Docker
+./vendor/bin/sail down
+
 # Remove existing docker images and volumes
 docker rm -f $(docker ps -a -q)
 docker volume rm $(docker volume ls -q)
 
 # Rebuild the images
-sail build --no-cache
+./vendor/bin/sail build --no-cache
 
 # Run Docker
-sail up -d
+./vendor/bin/sail up -d
 
 # Migrate the database with seeding
-sail artisan migrate:fresh --seed
+./vendor/bin/sail artisan migrate:fresh --seed
