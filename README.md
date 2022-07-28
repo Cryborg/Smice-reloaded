@@ -22,8 +22,8 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 Run the application 
 ```
-// Run and configure Docker images
-$ sail up
+// Run and configure Docker images in "detached" mode
+$ sail up -d
 
 // Configure the application
 $ sail composer install
@@ -48,7 +48,7 @@ $ sail php -v
 
 The technical documentation can be automatically generated.
 ```
-sail artisan lrd:g
+sail artisan lrd:generate
 ```
 
 To access it, go to <a href="http://0.0.0.0:8080/request-docs"> `http://0.0.0.0:8080/request-docs` </a>
