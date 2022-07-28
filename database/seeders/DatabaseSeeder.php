@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->createAdmins();
-        $this->createSmiceClient();
     }
 
     private function createAdmins()
@@ -40,25 +39,5 @@ class DatabaseSeeder extends Seeder
         ];
 
         User::factory()->createMany($admins);
-    }
-
-    /**
-     * Create the Smice client, which will be used by the API
-     *
-     * @return void
-     */
-    private function createSmiceClient()
-    {
-        $clientRepository = app('Laravel\Passport\ClientRepository');
-        $client = $clientRepository->create(
-            1,
-            'Smice',
-            'https://0.0.0.0:8080/auth/callback',
-            null,
-            false,
-            true
-        );
-        $client->secret = 'g1bnSaztvbs3RyIhNK6NAxUGT39TEldtF81xiWQb';
-        $client->save();
     }
 }
