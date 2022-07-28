@@ -34,6 +34,19 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            // Load all routes.php files in Http subfolders
+            $dir = new \DirectoryIterator(app_path('Http'));
+            foreach ($dir as $fileinfo) {
+                if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+                    $file = $fileinfo->getPathname() . DIRECTORY_SEPARATOR . 'routes.php';
+
+                    if (file_exists($file)) {
+                        Route::middleware('api')
+                            ->group($file);
+                    }
+                }
+            }
         });
     }
 
