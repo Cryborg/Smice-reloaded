@@ -15,9 +15,17 @@ class AuthController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
+    /**
+     * Log a user
+     *
+     * @param AuthLoginRequest $request
+     * @return JsonResponse
+     */
     public function login(AuthLoginRequest $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
@@ -30,11 +38,9 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
-
         return response()->json([
             'status' => 'success',
-            'user' => $user,
+            'user' => $this->authenticatedUser,
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',
@@ -43,6 +49,12 @@ class AuthController extends Controller
 
     }
 
+    /**
+     * Register a new user
+     *
+     * @param AuthRegisterRequest $request
+     * @return JsonResponse
+     */
     public function register(AuthRegisterRequest $request): JsonResponse
     {
         $user = User::create([
@@ -64,6 +76,11 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Logout
+     *
+     * @return JsonResponse
+     */
     public function logout(): JsonResponse
     {
         Auth::logout();
@@ -74,11 +91,16 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * Refresh token
+     *
+     * @return JsonResponse
+     */
     public function refresh(): JsonResponse
     {
         return response()->json([
             'status' => 'success',
-            'user' => Auth::user(),
+            'user' => $this->authenticatedUser,
             'authorisation' => [
                 'token' => Auth::refresh(),
                 'type' => 'bearer',
