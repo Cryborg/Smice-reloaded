@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Http\User\Models\User>
  */
 class UserFactory extends Factory
 {
@@ -17,12 +17,20 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // = "password"
+
         return [
-            'name' => $this->faker->name(),
+            'first_name' => $this->faker->name(),
+            'last_name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'email_verified' => true,
+            'password' => $password,
+            'password_confirmation' => $password,
+
+            'society_id' => 1,
+            'current_society_id' => 1,
+            'secret_key' => Str::random(50),
+            'api_key' => Str::random(255),
         ];
     }
 
@@ -35,7 +43,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'email_verified_at' => null,
+                'email_verified' => false,
             ];
         });
     }

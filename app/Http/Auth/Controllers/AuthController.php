@@ -4,18 +4,19 @@ namespace App\Http\Auth\Controllers;
 
 use App\Http\Auth\Requests\AuthLoginRequest;
 use App\Http\Auth\Requests\AuthRegisterRequest;
-use App\Http\Controller;
-use App\Models\User;
+use App\Http\SmiceController;
+use App\Http\User\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class AuthController extends SmiceController
 {
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        parent::__construct();
+        parent::__construct($request);
 
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
@@ -40,7 +41,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'user' => $this->authenticatedUser,
+            'user' => $this->user,
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',

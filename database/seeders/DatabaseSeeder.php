@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Http\User\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,17 +22,20 @@ class DatabaseSeeder extends Seeder
     {
         $admins = [
             [
-                'name' => 'Julien M',
+                'first_name' => 'Julien',
+                'last_name' => 'MONDHARD',
                 'email' => 'julien@smice.com',
                 'password' => Hash::make('password'),
             ],
             [
-                'name' => 'Marc D',
+                'first_name' => 'Marc',
+                'last_name' => 'DUREISSEIX',
                 'email' => 'marc@smice.com',
                 'password' => Hash::make('password'),
             ],
             [
-                'name' => 'Franck L',
+                'first_name' => 'Franck',
+                'last_name' => 'LÉCUVIER',
                 'email' => 'franck.l@smice.com',
                 'password' => Hash::make('password'),
             ],
