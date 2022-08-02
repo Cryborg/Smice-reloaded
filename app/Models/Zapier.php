@@ -37,7 +37,7 @@ class Zapier extends Model
 
     protected $hidden       = [];
 
-    protected $rules        = [];
+    protected array $rules        = [];
 
     /*
      * Les "triggers" disponibles sur Zapier

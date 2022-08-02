@@ -35,9 +35,9 @@ class FailedJobs extends SmiceModel
         'payload',
     ];
 
-    protected $rules            = [];
+    protected array $rules            = [];
 
-    protected $list_rows        = [
+    protected array $list_rows        = [
         'queue',
         'failed_at'
     ];

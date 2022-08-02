@@ -56,14 +56,14 @@ class AxeDirectory extends SmiceModel implements iREST, iProtected
         'created_by'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'society_id'    => 'integer|required',
         'name' 		    => 'string|required|unique_with:axe_directory,society_id,{id}',
         'created_by'    => 'integer|required',
         'parent_id'     => 'integer'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name'
     ];
 
@@ -124,7 +124,7 @@ class AxeDirectory extends SmiceModel implements iREST, iProtected
 
     /**
      * Recursive function to get all axes ids including subgroups
-     * 
+     *
      * @param array $itemIds
      * @return array
      */

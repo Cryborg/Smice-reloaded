@@ -56,19 +56,19 @@ class Scenario extends SmiceModel implements iREST, iProtected, iTranslatable
         'pivot'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'society_id',
         'name',
         'created_by'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'society_id'    => "integer|required",
         'name' 		    => 'array|required', // "string|required|unique_with:axe,society_id,{id}",
         'created_by'    => 'integer|required'
     ];
 
-    protected $exportable      = [
+    protected array $exportable      = [
         'name'
     ];
 
@@ -104,7 +104,7 @@ class Scenario extends SmiceModel implements iREST, iProtected, iTranslatable
 
     public function shops()
     {
-        return $this->belongsToMany('App\Models\Shop', 'shop_axe');
+        return $this->belongsToMany(Shop::class, 'shop_axe');
     }
 
     public function items()

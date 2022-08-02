@@ -55,7 +55,7 @@ class VoucherHistory extends SmiceModel
 
     protected $hidden = [];
 
-    protected $rules = [
+    protected array $rules = [
         'filename' => 'string|required',
         'operations' => 'integer|required',
         'amount' => 'decimal|required',

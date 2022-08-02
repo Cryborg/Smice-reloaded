@@ -46,11 +46,11 @@ class UserActivity extends SmiceModel
 
     protected $hidden = [];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'user_level_id'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'user_id' => 'required|integer|read:user',
         'validated_mission' => 'required|integer',
         'invalidated_mission' => 'required|integer',

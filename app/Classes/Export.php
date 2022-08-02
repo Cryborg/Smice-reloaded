@@ -1,23 +1,23 @@
 <?php
 namespace App\Classes;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use App\Models\Country;
-use App\Models\Language;
-use App\Models\Civility;
-use App\Models\Society;
-use Artisan;
-use App\Models\Program;
-use App\Models\Shop;
+use App\Http\Country\Models\Country;
 use App\Models\Axe;
-use App\Models\Sequence;
-use App\Models\Survey;
+use App\Models\Civility;
 use App\Models\CriteriaA;
 use App\Models\CriteriaB;
-use App\Models\Theme;
 use App\Models\Job;
+use App\Models\Language;
+use App\Models\Program;
 use App\Models\Question;
+use App\Models\Sequence;
+use App\Models\Shop;
+use App\Models\Society;
+use App\Models\Survey;
+use App\Models\Theme;
+use App\Models\User;
+use Artisan;
+use Illuminate\Support\Facades\DB;
 
 class Export
 {
@@ -157,7 +157,7 @@ class Export
 			$program->id = $val['id_programme'];
 			$program->id_product = $val['id_product'];
 			$program->society_id = 10934;
-			
+
 			if ($val['title'] !== null && $val['title'] !== '') {
 				$program->name = $val['title'];
 			} else {
@@ -398,6 +398,6 @@ class Export
 	}
 
 	public function answers() {
-		
+
 	}
 }

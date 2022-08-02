@@ -45,7 +45,7 @@ class AnswerFile extends SmiceModel implements iREST, iProtected
     protected $hidden               = [
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'url'          => 'string|required',
         'answer_id'    => 'integer|required|exists:answer,id',
     ];

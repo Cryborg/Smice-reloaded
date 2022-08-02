@@ -33,7 +33,7 @@ class Message extends Model
         'sent_to',
     ];
 
-    protected $rules            = [
+    protected array $rules            = [
         'content'         => 'string|required',
         'sent_to'         => 'integer|required|read:sentTo|exists:user,id',
     ];

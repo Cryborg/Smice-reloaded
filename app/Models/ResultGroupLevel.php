@@ -14,7 +14,7 @@ class ResultGroupLevel extends SmiceModel
 
     protected $hidden       = [];
 
-    protected $rules        = [];
+    protected array $rules        = [];
 
-    
+
 }

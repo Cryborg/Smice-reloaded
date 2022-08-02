@@ -47,13 +47,13 @@ class Axe extends SmiceModel implements iREST, iProtected
         'society_id'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'axe_directory_id'  => 'integer|required',/*|read:axes*/
         'name' 		        => 'string|required|unique_with:axe,axe_directory_id,{id}',
         'society_id'        => 'integer|required'
     ];
 
-    protected $exportable       = [
+    protected array $exportable       = [
         'name'
     ];
 
@@ -79,7 +79,7 @@ class Axe extends SmiceModel implements iREST, iProtected
 
     public function shops()
     {
-        return $this->belongsToMany('App\Models\Shop', 'shop_axe');
+        return $this->belongsToMany(Shop::class, 'shop_axe');
     }
 
     public function society()

@@ -36,9 +36,9 @@ class ActionplanStatus extends SmiceModel implements iREST
     protected $hidden = [
     ];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
-    protected $rules = [
+    protected array $rules = [
         'name' => 'json',
     ];
 

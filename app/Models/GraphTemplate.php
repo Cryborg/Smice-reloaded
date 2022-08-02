@@ -44,7 +44,7 @@ class GraphTemplate extends SmiceModel
 
     protected $hidden           = [];
 
-    protected $rules            = [];
+    protected array $rules            = [];
 
     public function graph()
     {

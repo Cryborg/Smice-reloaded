@@ -47,14 +47,14 @@ class WaveTargetConversationGlobal extends SmiceModel implements iREST, iProtect
         'created_by'
     ];
 
-   
 
-    protected $rules                = [
+
+    protected array $rules                = [
         'message'                  => 'required|string',
         'wave_target_id'           => 'required|integer|read:targets',
         'created_by'               => 'required|integer|read:users'
     ];
-    protected $list_rows = [
+    protected array $list_rows = [
         'message',
         'wave_target_id',
         'created_by',

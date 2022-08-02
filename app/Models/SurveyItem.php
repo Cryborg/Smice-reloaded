@@ -170,7 +170,7 @@ class SurveyItem extends SmiceModel implements iREST
         'conditions'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'survey_id'         => 'integer|required|read:surveys',
         'parent_id'         => 'integer',
         'required'          => 'boolean',
@@ -428,7 +428,7 @@ class SurveyItem extends SmiceModel implements iREST
 
     public function shops()
     {
-        return $this->belongsToMany('App\Models\Shop', 'survey_item_shop');
+        return $this->belongsToMany(Shop::class, 'survey_item_shop');
     }
 
     public function groups()
@@ -1138,7 +1138,7 @@ class SurveyItem extends SmiceModel implements iREST
 
     /**
      * Recursive function to get all sequence ids including subsequences
-     * 
+     *
      * @param array $itemIds
      * @return array
      */

@@ -14,7 +14,7 @@ class ResultCriteriaB extends SmiceModel
 
     protected $hidden       = [];
 
-    protected $rules        = [];
+    protected array $rules        = [];
 
-    
+
 }

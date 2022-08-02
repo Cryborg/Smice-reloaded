@@ -37,11 +37,11 @@ namespace App\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GoogleReviews whereTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GoogleReviews whereUpdatedAt($value)
  */
-class GoogleReviews extends SmiceModel 
+class GoogleReviews extends SmiceModel
 {
     protected $table        = 'google_reviews';
 
-    protected $rules = [
-        
+    protected array $rules = [
+
     ];
 }

@@ -135,7 +135,7 @@ class Actionplan extends SmiceModel implements iREST, iProtected
 
     protected $hidden = [];
 
-    protected $rules = [
+    protected array $rules = [
         'name' => 'string|required',
         'content' => 'string',
         'extern' => 'string',
@@ -180,7 +180,7 @@ class Actionplan extends SmiceModel implements iREST, iProtected
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 
     public function axe()
@@ -389,7 +389,7 @@ class Actionplan extends SmiceModel implements iREST, iProtected
     protected static function boot()
     {
         parent::boot();
- 
+
         self::creating(function (self $actionplan) {
             self::sendActionplanMail($actionplan, true);
         });

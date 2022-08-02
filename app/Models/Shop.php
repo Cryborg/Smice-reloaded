@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\User\Models\User;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use App\Jobs\ShopGoogleRatingJob;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\DB;
 
@@ -146,7 +149,7 @@ class Shop extends SmiceModel implements iREST, iProtected
 
     protected $primaryKey = 'id';
 
-    protected $list_table = 'show_shops';
+    protected string $list_table = 'show_shops';
 
     public static function getURI()
     {
@@ -218,7 +221,7 @@ class Shop extends SmiceModel implements iREST, iProtected
         'pivot'
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'name',
         'brand',
         'street',
@@ -243,7 +246,7 @@ class Shop extends SmiceModel implements iREST, iProtected
         'last_report_sent_at',
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'name' => 'string|required',
         'code_totem' => 'alpha_num',
         'street' => 'string',
@@ -292,7 +295,7 @@ class Shop extends SmiceModel implements iREST, iProtected
         'private_info' => 'string'
     ];
 
-    protected $exportable = [
+    protected array $exportable = [
         'name',
         'street',
         'street2',
@@ -313,7 +316,7 @@ class Shop extends SmiceModel implements iREST, iProtected
         'axe'
     ];
 
-    public function creatingEvent(User $user, array $params = [])
+    public function creatingEvent(User $user, array $params = []): bool
     {
         self::created(function (self $shop) use ($user) {
             DB::table('shop_society')->insert([
@@ -325,7 +328,7 @@ class Shop extends SmiceModel implements iREST, iProtected
         });
     }
 
-    public function updatingEvent(User $user, array $params = [])
+    public function updatingEvent(User $user, array $params = []): bool
     {
         self::updated(function (self $shop) use ($user) {
             //DB::table('shop_society')->insert([
@@ -337,9 +340,9 @@ class Shop extends SmiceModel implements iREST, iProtected
         });
     }
 
-    public function save(array $options = [])
+    public function save(array $options = []): bool
     {
-        $res = parent::save($options);
+        return parent::save($options);
 
         //if ($res) {
         //    $job = (new ShopGoogleRatingJob($this))->onQueue('rating');
@@ -347,32 +350,32 @@ class Shop extends SmiceModel implements iREST, iProtected
         //}
     }
 
-    public function societies()
+    public function societies(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Society', 'shop_society');
     }
 
-    public function language()
+    public function language(): BelongsTo
     {
         return $this->belongsTo('App\Models\Language');
     }
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\User', 'user_shop');
     }
 
-    public function axes()
+    public function axes(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Axe', 'shop_axe');
     }
 
-    public function waves()
+    public function waves(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Wave', 'wave_shop');
     }
 
-    public function missions()
+    public function missions(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Mission', 'mission');
     }
@@ -452,8 +455,8 @@ class Shop extends SmiceModel implements iREST, iProtected
 
         $shop = [];
         array_push($shop, self::getAxeshop($filters['axes']));
-        array_push($shop, self::getAxeshop($filters['axes_as_filter'])); 
-        array_push($shop, $filters['shop']); 
+        array_push($shop, self::getAxeshop($filters['axes_as_filter']));
+        array_push($shop, $filters['shop']);
         $i = 0;
 
         $intersect_shop_id = [];

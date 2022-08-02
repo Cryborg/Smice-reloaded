@@ -50,7 +50,7 @@ class LogTarget extends SmiceModel
 		'action',
 	];
 
-	protected $rules = [
+	protected array $rules = [
 		'user_id' 	 => 'integer|required',
 		'shop_id' 	 => 'integer|required',
 		'program_id' => 'integer|required',
@@ -74,7 +74,7 @@ class LogTarget extends SmiceModel
 
 	public function shop()
 	{
-		return $this->belongsTo('App\Models\Shop');
+		return $this->belongsTo(Shop::class);
 	}
 
 	public function program()

@@ -42,7 +42,7 @@ class Checklist extends SmiceModel implements iREST, iProtected, iTranslatable
         'name'
     ];
 
-    protected $list_rows        = [
+    protected array $list_rows        = [
         'name',
         'society_id',
         'created_by'
@@ -59,7 +59,7 @@ class Checklist extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name'          => 'required|string|unique_with:briefing,society_id,{id}',
         'society_id'    => 'required|integer',
         'created_by'    => 'required|integer'

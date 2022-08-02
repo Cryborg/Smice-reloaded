@@ -50,7 +50,7 @@ class MailAlert extends SmiceModel implements iREST, iProtected
 	];
 
 
-	protected $rules            = [
+	protected array $rules            = [
         'alert_id'    => 'integer|required|read:alert'
 	];
 

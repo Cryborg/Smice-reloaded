@@ -32,7 +32,7 @@ class Language extends SmiceModel
 
     protected $hidden       = [];
 
-    protected $rules        = [
+    protected array $rules        = [
         'code' => 'unique:language,code,{id}'
     ];
 }

@@ -59,7 +59,7 @@ class QuestionCol extends SmiceModel
         'question_id',
     ];
 
-    protected $rules        = [
+    protected array $rules        = [
         'name'              => 'array|required',
         'question_id'       => 'integer|required',
         'image'             => 'string|required_if:name,""',

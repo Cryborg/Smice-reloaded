@@ -36,7 +36,7 @@ class UserPermission extends SmiceModel implements iREST, iProtected
 
     protected $hidden = [];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
     public static function getURI()
     {

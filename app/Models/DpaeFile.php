@@ -35,7 +35,7 @@ class DpaeFile extends SmiceModel
         'created_at',
 	];
 
-	protected $rules             = [
+	protected array $rules             = [
 		'filename'              => 'string|required',
         'count'                 => 'integer|required',
         'created_at'            => 'string|required',

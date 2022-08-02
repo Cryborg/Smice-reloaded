@@ -14,7 +14,7 @@ class ResultAxeAsFilter extends SmiceModel
 
     protected $hidden       = [];
 
-    protected $rules        = [];
+    protected array $rules        = [];
 
-    
+
 }

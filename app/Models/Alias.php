@@ -151,7 +151,7 @@ class Alias extends SmiceModel implements iREST, iProtected, iTranslatable
 
     protected $hidden       = [];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'filters',
         'allow_proof_access',
         'result_in_percent',
@@ -184,7 +184,7 @@ class Alias extends SmiceModel implements iREST, iProtected, iTranslatable
         'answer'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'allow_proof_access' => 'boolean',
         'result_in_percent'  => 'boolean',
         'filters'            => 'array',

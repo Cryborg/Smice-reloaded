@@ -7,9 +7,25 @@ use App\Classes\Permissions\Permissions;
 use App\Classes\Services\UserService;
 use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Exceptions\SmiceException;
+use App\Http\Country\Models\Country;
 use App\Http\Role\Models\Role;
 use App\Jobs\UserProfileScoreJob;
+use App\Models\Dashboard;
+use App\Models\Gain;
+use App\Models\Group;
+use App\Models\Language;
+use App\Models\Payment;
+use App\Models\Program;
+use App\Models\Shop;
+use App\Models\Skill;
 use App\Models\SmiceModel;
+use App\Models\Society;
+use App\Models\TodoistUser;
+use App\Models\Voucher;
+use App\Models\WaveTarget;
+use App\Models\WaveUser;
+use App\Traits\RequestToQueryable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,13 +41,14 @@ use Illuminate\Support\Str;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Spatie\Translatable\HasTranslations;
 
-class User extends SmiceModel implements JWTSubject
+class User extends SmiceModel implements JWTSubject, Authenticatable
 {
-    use HasFactory;
-    use Notifiable;
     use DispatchesJobs;
-    use SoftDeletes;
+    use HasFactory;
     use HasTranslations;
+    use Notifiable;
+    use RequestToQueryable;
+    use SoftDeletes;
 
     public const GENDER_MALE = 'male';
     public const GENDER_FEMALE = 'female';
@@ -133,6 +150,21 @@ class User extends SmiceModel implements JWTSubject
 
     protected array $files = ['picture'];
 
+    public static array $allowedIncludes = [
+        'country',
+        'groups',
+        'roles',
+        'shops',
+        'society',
+    ];
+
+    public static array $allowedSorts = [];
+    public static array $allowedFilters = [];
+
+    protected $with = [
+        'country'
+    ];
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -153,17 +185,17 @@ class User extends SmiceModel implements JWTSubject
         return [];
     }
 
-    public static function getURI()
+    public static function getURI(): string
     {
         return 'users';
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'user';
     }
 
-    public function getModuleName()
+    public function getModuleName(): string
     {
         return 'users';
     }
@@ -255,114 +287,114 @@ class User extends SmiceModel implements JWTSubject
         });
     }
 
-    public function shops()
+    public function shops(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Shop', 'user_shop');
+        return $this->belongsToMany(Shop::class, 'user_shop');
     }
 
-    public function skills()
+    public function skills(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Skill', 'user_skill');
+        return $this->belongsToMany(Skill::class, 'user_skill');
     }
 
-    public function society()
+    public function society(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Society');
+        return $this->belongsTo(Society::class);
     }
 
-    public function dashboards()
+    public function dashboards(): HasMany
     {
-        return $this->hasMany('App\Models\Dashboard');
+        return $this->hasMany(Dashboard::class);
     }
 
-    public function currentSociety()
+    public function currentSociety(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Society', 'current_society_id');
+        return $this->belongsTo(Society::class, 'current_society_id');
     }
 
-    public function roles()
+    public function roles(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Role', 'role_user')->select('id', 'name');
+        return $this->belongsToMany(Role::class, 'role_user')->select('id', 'name');
     }
 
-    public function groups()
+    public function groups(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Group', 'group_user')->select('group.id', 'group.name');
+        return $this->belongsToMany(Group::class, 'group_user');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo('App\Http\User\Models\User', 'created_by')->minimum();
+        return $this->belongsTo(User::class, 'created_by')->minimum();
     }
 
-    public function payments()
+    public function payments(): HasMany
     {
-        return $this->hasMany('App\Models\Payment');
+        return $this->hasMany(Payment::class);
     }
 
     public function userPermission(): HasOne
     {
-        return $this->hasOne('App\Models\UserPermission');
+        return $this->hasOne(UserPermission::class);
     }
 
     public function userActivity(): HasOne
     {
-        return $this->hasOne('App\Http\User\Models\UserActivity');
+        return $this->hasOne(UserActivity::class);
     }
 
     public function userLogin(): HasOne
     {
-        return $this->hasOne('App\Http\User\Models\UserLogin');
+        return $this->hasOne(UserLogin::class);
     }
 
     public function programs(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Program', 'program_user');
+        return $this->belongsToMany(Program::class, 'program_user');
     }
 
     public function exclusionSocieties(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Society', 'user_exclusion_society');
+        return $this->belongsToMany(Society::class, 'user_exclusion_society');
     }
 
     public function exclusionShops(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Shop', 'user_exclusion_shop');
+        return $this->belongsToMany(Shop::class, 'user_exclusion_shop');
     }
 
     public function waveUsers(): HasMany
     {
-        return $this->hasMany('App\Models\WaveUser');
+        return $this->hasMany(WaveUser::class);
     }
 
     public function targets(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\WaveTarget', 'wave_user', 'user_id', 'wave_target_id');
+        return $this->belongsToMany(WaveTarget::class, 'wave_user', 'user_id', 'wave_target_id');
     }
 
     public function country(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Country');
+        return $this->belongsTo(Country::class);
     }
 
     public function todoistUser(): HasOne
     {
-        return $this->hasOne('App\Models\TodoistUser');
+        return $this->hasOne(TodoistUser::class);
     }
 
     public function language(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Language');
+        return $this->belongsTo(Language::class);
     }
 
     public function gains(): HasMany
     {
-        return $this->hasMany('App\Models\Gain');
+        return $this->hasMany(Gain::class);
     }
 
     public function voucher(): HasMany
     {
-        return $this->hasMany('App\Models\Voucher');
+        return $this->hasMany(Voucher::class);
     }
 
     public function scopeRelations($query)
@@ -499,7 +531,68 @@ class User extends SmiceModel implements JWTSubject
     protected function email(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => strtolower($value),
+            set: fn($value) => strtolower($value),
         );
+    }
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName(): string
+    {
+        return 'id';
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier(): mixed
+    {
+        return $this->attributes[$this->getAuthIdentifierName()];
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword(): string
+    {
+        return $this->attributes['password'];
+    }
+
+    /**
+     * Get the "remember me" token value.
+     *
+     * @return string
+     */
+    public function getRememberToken(): string
+    {
+        return $this->attributes[$this->getRememberTokenName()];
+    }
+
+    /**
+     * Set the "remember me" token value.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setRememberToken($value): void
+    {
+        $this->attributes[$this->getRememberTokenName()] = $value;
+    }
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName(): string
+    {
+        return 'remember_token';
     }
 }

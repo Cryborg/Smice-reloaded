@@ -111,13 +111,13 @@ class SmiceFinder
         $queried_fields = [];
         $mandatory_fields = ['id'];
         $possible_fields = array_merge($this->model->getTableRows(), $mandatory_fields);
-
+        dump($possible_fields);
         if ($fields && !is_array($fields)) {
             $queried_fields = explode(',', $fields);
         }
 
         $valid_queried_fields = array_intersect($queried_fields, $possible_fields);
-
+dump($valid_queried_fields);
         if (empty($valid_queried_fields)) {
             $this->fields = $possible_fields;
         } else {

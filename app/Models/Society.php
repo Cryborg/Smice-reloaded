@@ -97,7 +97,7 @@ class Society extends SmiceModel implements iREST, iProtected
      * The id of the children societies.
      * @var array
      */
-    private $children_id            = null;
+    private ?array $children_id            = null;
 
     protected $fillable             = [
         'name',
@@ -129,7 +129,7 @@ class Society extends SmiceModel implements iREST, iProtected
         'todoist_api_key',
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'id',
         'name',
         'street',
@@ -139,7 +139,7 @@ class Society extends SmiceModel implements iREST, iProtected
         'logo'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name'            => 'string|required|unique:society,name,{id}',
         'email'           => 'email',
         'street'          => 'string',
@@ -161,7 +161,7 @@ class Society extends SmiceModel implements iREST, iProtected
         'last_refresh_data' => 'date'
     ];
 
-    protected $exportable     = [
+    protected array $exportable     = [
         'id',
         'name',
         'email',
@@ -175,7 +175,7 @@ class Society extends SmiceModel implements iREST, iProtected
         'logo',
     ];
 
-    protected $files               = [
+    protected array $files               = [
         'logo'
     ];
 
@@ -200,7 +200,7 @@ class Society extends SmiceModel implements iREST, iProtected
 
             //Prepare view for dashboard
             Artisan::call('society:createview', ['societyId' => $society->id]);
-            
+
         });
     }
 
@@ -246,7 +246,7 @@ class Society extends SmiceModel implements iREST, iProtected
 
     public function shops()
     {
-        return $this->belongsToMany('App\Models\Shop', 'shop_society');
+        return $this->belongsToMany(Shop::class, 'shop_society');
     }
 
     public function groups()

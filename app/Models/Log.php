@@ -58,7 +58,7 @@ class Log extends SmiceModel implements iRest, iProtected
 		'text',
 	];
 
-	protected $rules = [
+	protected array $rules = [
 		'date' 	  => 'date|required',
 		'type' 	  => 'string|required',
 		'owner'	  => 'integer|required',

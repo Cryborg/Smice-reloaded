@@ -30,7 +30,7 @@ class TargetAlert extends SmiceModel
 
     protected $hidden               = [];
 
-    protected $rules                = [];
+    protected array $rules                = [];
 
 
     public function target()

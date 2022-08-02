@@ -43,7 +43,7 @@ class VoucherStatus extends Model
 
     protected $hidden = [];
 
-    protected $rules = [
+    protected array $rules = [
         'filename' => 'string|required',
         'operations' => 'integer|required',
         'amount' => 'decimal|required',

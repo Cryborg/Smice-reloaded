@@ -62,7 +62,7 @@ class AlertVariable extends SmiceModel implements iREST, iProtected
         'filters'
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'name',
         'alert_id',
         'type',
@@ -84,7 +84,7 @@ class AlertVariable extends SmiceModel implements iREST, iProtected
         return 'variables';
     }
 
-    protected $rules        = [
+    protected array $rules        = [
         'name'              => 'required|string|required|unique_with:alert,name,{id}',
         'alert_id'          => 'integer|required|read:alert',
         'society_id'        => 'integer|required|read:society',

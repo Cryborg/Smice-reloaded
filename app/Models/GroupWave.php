@@ -40,13 +40,13 @@ class GroupWave extends SmiceModel implements iREST
         'parent_id'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'society_id'    => 'integer|required',
         'name' 		    => 'string|required',
         'parent_id'     => 'integer'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name'
     ];
 

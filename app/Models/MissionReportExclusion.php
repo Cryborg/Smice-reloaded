@@ -8,7 +8,7 @@ use App\Interfaces\iREST;
 class MissionReportExclusion extends SmiceModel implements iREST, iProtected
 {
 
-  
+
 	protected $table            = 'mission_report_exclusion';
 
 	protected $primaryKey       = 'id';
@@ -21,11 +21,11 @@ class MissionReportExclusion extends SmiceModel implements iREST, iProtected
     ];
 
     protected $jsons = [];
-    
+
 
     protected $hidden = [];
 
-    protected $rules = [];
+    protected array $rules = [];
 
     public static function getURI()
     {
@@ -46,5 +46,5 @@ class MissionReportExclusion extends SmiceModel implements iREST, iProtected
     {
         return $this->belongsTo('App\Models\Mission');
     }
-    
+
 }

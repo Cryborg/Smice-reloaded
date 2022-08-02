@@ -68,7 +68,7 @@ class Gain extends SmiceModel implements iRest, iProtected
         'visit_date',
     ];
 
-    protected $rules = [
+    protected array $rules = [
 
     	'user_id'			 => 'integer|required',
     	'wave_target_id'	 => 'integer|required',

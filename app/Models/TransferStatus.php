@@ -37,7 +37,7 @@ class TransferStatus extends Model
         'updated_at'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'status'                => 'array|required',
     ];
 }

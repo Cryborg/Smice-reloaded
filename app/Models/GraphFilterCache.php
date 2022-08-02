@@ -27,14 +27,14 @@ namespace App\Models;
  * @property mixed $waveIds
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GraphFilterCache whereWaveIds($value)
  */
-class GraphFilterCache extends SmiceModel 
+class GraphFilterCache extends SmiceModel
 {
     protected $table        = 'graph_filter_cache';
 
     public $timestamps      = true;
 
-   
-    protected $rules = [
+
+    protected array $rules = [
         'restrictedShopId'   => 'array',
         'targetIds'          => 'array',
         'questionIds'        => 'array',

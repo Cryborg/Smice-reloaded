@@ -50,7 +50,7 @@ class LogModel extends SmiceModel
 		'snapshot'
 	];
 
-	protected $rules = [
+	protected array $rules = [
 		'user_id'  => 'integer|required',
 		'date' 	   => 'date|required',
 		'action'   => 'required|in:create,update,delete,save_answer,send_answer,login',

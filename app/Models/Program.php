@@ -83,7 +83,7 @@ class Program extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by',
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name'              => 'array|required', // 'string|required|unique_with:program,society_id,{id}'
         'society_id'        => 'integer|required',
         'created_by'        => 'integer|required',
@@ -91,14 +91,14 @@ class Program extends SmiceModel implements iREST, iProtected, iTranslatable
         'order'             => 'integer|required|min:0',
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name',
         'society_id',
         'anonymous_mode',
         'order'
     ];
 
-    protected $exportable      = [
+    protected array $exportable      = [
         'name'
     ];
 

@@ -66,7 +66,7 @@ class Dashboard extends SmiceModel implements iREST, iProtected
         'share_option'
     ];
 
-    protected $rules            = [
+    protected array $rules            = [
         'name' => 'array|required',
         'user_id' => 'integer|required',
         'society_id' => 'integer|required',

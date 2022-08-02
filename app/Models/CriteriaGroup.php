@@ -54,11 +54,11 @@ class CriteriaGroup extends SmiceModel implements iREST, iProtected, iTranslatab
         'society_id',
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'society_id' => 'integer|required',
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'id',
         'society_id',
         'name',

@@ -111,7 +111,7 @@ class WaveUser extends SmiceModel implements iREST
 
     protected $hidden               = [];
 
-    protected $rules                = [
+    protected array $rules                = [
         'uuid'                  => 'string|required',
         'user_id'               => 'integer|required',
         'status_id'             => 'integer|required',
@@ -139,7 +139,7 @@ class WaveUser extends SmiceModel implements iREST
         'online_date'           => 'date'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         '*'
     ];
 

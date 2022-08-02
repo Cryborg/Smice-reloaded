@@ -34,7 +34,7 @@ class DashboardUser extends SmiceModel
         'group_id',
     ];
 
-    protected $rules            = [
+    protected array $rules            = [
         'dashboard_id' => 'integer|required',
         'user_id' => 'integer|required',
         'group_id' => 'integer',

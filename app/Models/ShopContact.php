@@ -49,9 +49,9 @@ class ShopContact extends SmiceModel implements iREST
         'shop_id',
     ];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
-    protected $rules = [
+    protected array $rules = [
         'shop_id' => 'required|integer|exists:shop,id',
         'first_name' => 'string',
         'last_name' => 'string',
@@ -77,6 +77,6 @@ class ShopContact extends SmiceModel implements iREST
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 }

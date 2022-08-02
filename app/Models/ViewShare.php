@@ -73,9 +73,9 @@ class ViewShare extends SmiceModel implements iREST, iProtected
         'society_id'
     ];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
-    protected $rules        = [
+    protected array $rules        = [
         'view_id'           => 'integer|required|read:view',
         'society_id'        => 'integer|required|read:society',
         'user_id'           => 'integer|read:user',
@@ -124,7 +124,7 @@ class ViewShare extends SmiceModel implements iREST, iProtected
                     ]);
                 }, $u->language->code);
             }
-            
+
             if ($viewShare->group_id && $viewShare->view_id) {
                 //read dashboard name
                 $group_user = DB::table('group_user')

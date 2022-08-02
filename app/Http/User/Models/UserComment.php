@@ -56,9 +56,9 @@ class UserComment extends SmiceModel
 
     protected $hidden = [];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
-    protected $rules = [
+    protected array $rules = [
         'user_id'    => 'required|integer|read:user',
         'created_by' => 'required|integer|read:user',
         'created_at' => 'required',

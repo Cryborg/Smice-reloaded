@@ -63,13 +63,13 @@ class Skill extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name',
         'description',
         'visible',
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name'                          => 'required|json',
         'description'                   => 'required|json',
         'visible'                       => 'required|boolean',

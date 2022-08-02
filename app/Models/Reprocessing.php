@@ -119,7 +119,7 @@ class Reprocessing extends SmiceModel implements iREST, iProtected
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 
     public function axe()
@@ -131,7 +131,7 @@ class Reprocessing extends SmiceModel implements iREST, iProtected
     {
         return $this->belongsTo('App\Models\Sequence', 'target_sequence_id');
     }
-   
+
     public function question()
     {
         return $this->belongsTo('App\Models\Question');

@@ -14,7 +14,7 @@ class ResultProgram extends SmiceModel
 
     protected $hidden       = [];
 
-    protected $rules        = [];
+    protected array $rules        = [];
 
-    
+
 }

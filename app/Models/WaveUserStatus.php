@@ -34,7 +34,7 @@ class WaveUserStatus extends Model
 
     protected $hidden               = [];
 
-    protected $rules                = [
+    protected array $rules                = [
         'status'                => 'array|required',
     ];
 

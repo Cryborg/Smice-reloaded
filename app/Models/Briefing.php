@@ -43,11 +43,11 @@ class Briefing extends SmiceModel implements iREST, iProtected
 
     protected $hidden               = [];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name'          => 'required|string|unique_with:briefing,society_id,{id}',
         'document'      => 'string',
         'society_id'    => 'required|integer',
@@ -72,7 +72,7 @@ class Briefing extends SmiceModel implements iREST, iProtected
     {
         return 'briefings';
     }
-    
+
     public function society()
     {
         return $this->belongsTo('App\Models\Society');
@@ -83,5 +83,5 @@ class Briefing extends SmiceModel implements iREST, iProtected
         return$this->belongsTo('App\Models\User', 'created_by');
     }
 
-   
+
 }

@@ -69,14 +69,14 @@ class Sequence extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'name',
         'library',
         'description',
         'default_sequence'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'name' => 'array|required',
         'society_id' => 'integer|required',
         'library' => 'boolean',

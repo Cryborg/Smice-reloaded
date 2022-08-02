@@ -119,14 +119,14 @@ class Question extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name',
         'type',
         'description',
         'library'
     ];
 
-    protected $rules        = [
+    protected array $rules        = [
         'name'               => 'array|required',
         'answer_explanation' => 'array',
         'info'               => 'array',

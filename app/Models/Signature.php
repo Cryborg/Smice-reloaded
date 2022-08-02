@@ -98,10 +98,10 @@ class Signature extends SmiceModel implements iREST, iProtected
 
     protected $hidden               = [];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
     ];
 
     public static function getURI()

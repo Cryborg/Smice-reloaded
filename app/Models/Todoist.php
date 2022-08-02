@@ -69,7 +69,7 @@ class Todoist extends SmiceModel implements iREST, iProtected
         'close_at'
 	];
 
-	protected $rules            = [
+	protected array $rules            = [
         'name'                  => 'string|required|unique_with:mission,society_id,{id}',
         'description'           => 'string',
         'society_id'            => 'integer|required|read:societies',

@@ -45,7 +45,7 @@ class AxeTag extends SmiceModel implements iREST, iProtected
         'society_id'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name' 		        => 'string|required',
         'society_id'        => 'integer|required|exists:society,id'
     ];

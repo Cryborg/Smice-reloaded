@@ -67,9 +67,9 @@ class WaveFollow extends SmiceModel
 
     protected $hidden               = [];
 
-    protected $rules                = [];
+    protected array $rules                = [];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'society',
         'program',
         'missions',

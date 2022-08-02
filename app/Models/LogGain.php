@@ -51,7 +51,7 @@ class LogGain extends SmiceModel
 		'action'
 	];
 
-	protected $rules = [
+	protected array $rules = [
 		'user_id' 		 => 'integer|required',
 		'wave_target_id' => 'integer|required',
 		'refund' 		 => 'integer|required',

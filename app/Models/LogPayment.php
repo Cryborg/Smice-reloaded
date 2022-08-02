@@ -45,7 +45,7 @@ class LogPayment extends SmiceModel
 		'date'
 	];
 
-	protected $rules = [
+	protected array $rules = [
 		'user_id' 			=> 'integer|required',
 		'montant_cheque' 	=> 'integer|required',
 		'montant_virement' 	=> 'decimal|required',

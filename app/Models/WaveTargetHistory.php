@@ -61,7 +61,7 @@ class WaveTargetHistory extends SmiceModel
         'created_by'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'wave_target_id'            => 'required|integer|exists:wave_target,id',
         'status'                    => 'required|in:accepted,answered,confirmed,doodle,invalidated,off,proposed,read,selected,debriefed,not debriefed,not compliant,pending validation,rejected',
         'message'                   => 'string',

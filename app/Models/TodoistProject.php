@@ -48,7 +48,7 @@ class TodoistProject extends SmiceModel
         'created_by'
     ];
 
-    protected $rules            = [
+    protected array $rules            = [
         'todoist_id'            => 'integer|required',
         'shop_id'               => 'integer|required|read:shop',
         'society_id'            => 'integer|required|read:society',
@@ -62,7 +62,7 @@ class TodoistProject extends SmiceModel
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 
     public function createdBy()

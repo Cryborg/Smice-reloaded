@@ -64,7 +64,7 @@ class AnswerDeleted extends SmiceModel
 
     protected $hidden           = [];
 
-    protected $rules            = [
+    protected array $rules            = [
         'user_id'           => 'integer|required',
         'question_id'       => 'integer|required',
         'survey_id'         => 'integer|required',

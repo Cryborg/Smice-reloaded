@@ -59,12 +59,12 @@ class Theme extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'name',
         'is_visible_on_top_report'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'society_id' => 'integer|required',
         'name' => 'array|required',
         'created_by' => 'integer|required'

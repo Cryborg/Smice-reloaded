@@ -12,6 +12,7 @@ use App\Http\SmiceController;
 use App\Http\User\Models\User;
 use App\Http\User\Models\UserLevel;
 use App\Http\User\Requests\UserListRequest;
+use App\Http\User\Resources\UserListResourceCollection;
 use App\Jobs\UserMessageJob;
 use App\Models\Answer;
 use App\Models\Role;
@@ -24,6 +25,7 @@ use App\Models\Alias;
 use App\Models\Skill;
 use App\Models\Society;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Faker\Factory;
@@ -34,6 +36,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Classes\ExcelValueBinder;
 use App\Classes\AvatarService;
 use App\Classes\Helpers\ArrayHelper;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends SmiceController
 {
@@ -82,7 +85,7 @@ class UserController extends SmiceController
 
     public function getToken(Request $request)
     {
-        $user_id = $request->route('user_id', NULL);
+        $user_id = $request->route('user_id', null);
         if ($this->user->isadmin === false) {
             throw new SmiceException(
                 SmiceException::HTTP_FORBIDDEN,
@@ -107,48 +110,40 @@ class UserController extends SmiceController
     }
 
     /**
-     * @return Response
+     * @param UserListRequest $request
+     *
+     * @return UserListResourceCollection
      */
-    public function list(UserListRequest $request): Response
+    public function list(UserListRequest $request): UserListResourceCollection
     {
-        $response = null;
-        $groups = array_get($this->params, 'groups');
-        $users = array_get($this->params, 'ids');;
-
-        if ($groups) {
-            $usersGroups = DB::table('group_user')
-                ->whereIn('group_id', $groups)
-                ->pluck('user_id');
-
-            $users = User::whereIn('id', $usersGroups);
-        } elseif (!is_null($users)) {
-            $users = User::whereIn('id', $users);
-        }
-
-        if ($users) {
-            $response = (new SmiceFinder($users, $this->params, $this->user))->get();
-        }
-
-        return new Response($response);
+        $groups = json_decode($request->input('filter.groups'), true);
+        return new UserListResourceCollection(
+            QueryBuilder::for(User::class)
+                ->whereHas(
+                    'groups',
+                    function (Builder $builder) use ($groups) {
+                        $builder->whereIn('group_id', $groups);
+                    }
+                )
+                ->paginate(10)
+        );
     }
 
     /**
      * @return Response
      */
-    public function listUsersParent()
+    public function listUsersParent(): Response
     {
-
-        //Get all users with user in parent society, add exclsuion for smiceur
+        //Get all users with user in parent society, add exclusion for smiceur
         $users = (new User())->newListQuery();
         //get parent :
-        $o=$this->user->current_society_id;
+        $o = $this->user->current_society_id;
         $parent = Society::where('id', $this->user->current_society_id)->first()->toarray();
         if (($parent['society_id'] > 1) && ($this->user->society_id === 1)) {
             $ids = [$parent['society_id']];
             $ids[] = $this->user->current_society_id;
             $users->wherein('society_id', $ids);
-        }
-        else {
+        } else {
             $users->where('society_id', $this->user->current_society_id);
         }
 
@@ -161,7 +156,7 @@ class UserController extends SmiceController
     /**
      * @return Response
      */
-    public function getSmicers()
+    public function getSmicers(): Response
     {
         $user = new User();
         $user = $user->newListQuery();
@@ -283,7 +278,7 @@ class UserController extends SmiceController
             if ($items->getTitle() == 'users') {
                 foreach ($items as $item) {
                     $email = strtolower($item->email);
-                    $findUser =  User::whereEmail($email)->first();
+                    $findUser = User::whereEmail($email)->first();
                     $user = $findUser ? $findUser : new User();
                     if (isset($item->id) && $item->id !== 0 && !is_null($item->id)) {
                         $user->id = $item->id;
@@ -300,8 +295,9 @@ class UserController extends SmiceController
                     $user->gender = ($item->gender == 'f') ? User::GENDER_FEMALE : User::GENDER_MALE;
                     $user->birth_date = $item->birth_date;
                     $user->street = $item->street;
-                    if ($item->password)
+                    if ($item->password) {
                         $user->password = $item->password;
+                    }
                     $user->postal_code = (string)$item->postal_code;
                     $user->city = $item->city;
                     $user->email = strtolower($item->email);
@@ -339,10 +335,14 @@ class UserController extends SmiceController
                         }
                         if (strstr($shop_id, '.')) {
                             $shop_id = explode('.', $shop_id);
-                        } else if (strstr($shop_id, ',')) {
-                            $shop_id = explode(',', $shop_id);
-                        } else if (strstr($shop_id, ';')) {
-                            $shop_id = explode(';', $shop_id);
+                        } else {
+                            if (strstr($shop_id, ',')) {
+                                $shop_id = explode(',', $shop_id);
+                            } else {
+                                if (strstr($shop_id, ';')) {
+                                    $shop_id = explode(';', $shop_id);
+                                }
+                            }
                         }
                         if (!is_array($shop_id)) {
                             $shop_id = [$shop_id];
@@ -366,12 +366,16 @@ class UserController extends SmiceController
                         $groupIds = [];
                         if (strstr($groups, '.')) {
                             $groupIds = explode('.', $groups);
-                        } else if (strstr($groups, ',')) {
-                            $groupIds = explode(',', $groups);
-                        } else if (strstr($groups, ';')) {
-                            $groupIds = explode(';', $groups);
                         } else {
-                            $groupIds = [$groups];
+                            if (strstr($groups, ',')) {
+                                $groupIds = explode(',', $groups);
+                            } else {
+                                if (strstr($groups, ';')) {
+                                    $groupIds = explode(';', $groups);
+                                } else {
+                                    $groupIds = [$groups];
+                                }
+                            }
                         }
 
                         $groupIds = array_filter($groupIds);
@@ -390,12 +394,16 @@ class UserController extends SmiceController
                         $skillIds = [];
                         if (strstr($skills, '.')) {
                             $skillIds = explode('.', $skills);
-                        } else if (strstr($skills, ',')) {
-                            $skillIds = explode(',', $skills);
-                        } else if (strstr($skills, ';')) {
-                            $skillIds = explode(';', $skills);
                         } else {
-                            $skillIds = [$skills];
+                            if (strstr($skills, ',')) {
+                                $skillIds = explode(',', $skills);
+                            } else {
+                                if (strstr($skills, ';')) {
+                                    $skillIds = explode(';', $skills);
+                                } else {
+                                    $skillIds = [$skills];
+                                }
+                            }
                         }
 
                         if (!empty($skillIds)) {
@@ -413,12 +421,16 @@ class UserController extends SmiceController
 
                         if (strstr($roles, '.')) {
                             $roleIds = explode('.', $roles);
-                        } else if (strstr($roles, ',')) {
-                            $roleIds = explode(',', $roles);
-                        } else if (strstr($roles, ';')) {
-                            $roleIds = explode(';', $roles);
                         } else {
-                            $roleIds = [$roles];
+                            if (strstr($roles, ',')) {
+                                $roleIds = explode(',', $roles);
+                            } else {
+                                if (strstr($roles, ';')) {
+                                    $roleIds = explode(';', $roles);
+                                } else {
+                                    $roleIds = [$roles];
+                                }
+                            }
                         }
                         if (!empty($roleIds)) {
                             DB::table('role_user')->where('user_id', $user->id)->delete();
@@ -427,9 +439,9 @@ class UserController extends SmiceController
                     }
 
                     //update user_permission
-                    $UserPermission  = UserPermission::where('user_id', $user->id)->first();
-                    $UserPermission->review_access = (bool) $item->review_access;
-                    $UserPermission->download_passage_proof = (bool) $item->download_passage_proof;
+                    $UserPermission = UserPermission::where('user_id', $user->id)->first();
+                    $UserPermission->review_access = (bool)$item->review_access;
+                    $UserPermission->download_passage_proof = (bool)$item->download_passage_proof;
                     $UserPermission->save();
                 }
             }
@@ -492,24 +504,30 @@ class UserController extends SmiceController
 
         $roles = Role::where('society_id', $this->user->currentSociety->getKey())->get(['id', 'name']);
         $lan = $this->user->language->code;
-        $users_groups = Group::selectRaw('id, json_extract_path_text(name::json,\'' . $lan . '\') as name')->where('society_id', $this->user->currentSociety->getKey())->get(['id', 'name']);
-        $skills = Skill::selectRaw('id, json_extract_path_text(name::json,\'' . $lan . '\') as name')->where('society_id', $this->user->currentSociety->getKey())->get(['id', 'name']);
+        $users_groups = Group::selectRaw('id, json_extract_path_text(name::json,\'' . $lan . '\') as name')->where(
+            'society_id',
+            $this->user->currentSociety->getKey()
+        )->get(['id', 'name']);
+        $skills = Skill::selectRaw('id, json_extract_path_text(name::json,\'' . $lan . '\') as name')->where(
+            'society_id',
+            $this->user->currentSociety->getKey()
+        )->get(['id', 'name']);
         Excel::create('users', function ($excel) use ($users, $row, $roles, $skills, $users_groups) {
             $excel->setTitle('Exportation des users');
             $excel->sheet('password', function ($sheet) use ($row) {
-                $sheet->fromModel($row,  null, '', true);
+                $sheet->fromModel($row, null, '', true);
             });
             $excel->sheet('users', function ($sheet) use ($users) {
-                $sheet->fromModel($users,  null, '', true);
+                $sheet->fromModel($users, null, '', true);
             });
             $excel->sheet('roles', function ($sheet) use ($roles) {
-                $sheet->fromModel($roles,  null, '', true);
+                $sheet->fromModel($roles, null, '', true);
             });
             $excel->sheet('skills', function ($sheet) use ($skills) {
-                $sheet->fromModel($skills,  null, '', true);
+                $sheet->fromModel($skills, null, '', true);
             });
             $excel->sheet('groups', function ($sheet) use ($users_groups) {
-                $sheet->fromModel($users_groups,  null, '', true);
+                $sheet->fromModel($users_groups, null, '', true);
             });
         })->download('xls');
     }
@@ -562,7 +580,7 @@ class UserController extends SmiceController
                 'date_status ASC'
             ],
             'limit' => 'date',
-            'type'  => 'offer'
+            'type' => 'offer'
         ]);
 
         return new Response($results);
@@ -575,7 +593,7 @@ class UserController extends SmiceController
     public function showGoingMissions(Request $request)
     {
         $results = $this->userService->showUserMissions($request, [4, 6, 8, 11, 13], [
-            'type'  => 'todo'
+            'type' => 'todo'
         ]);
 
         return new Response($results);
@@ -827,11 +845,12 @@ class UserController extends SmiceController
         }
         $user = User::where('email', $email)->first();
 
-        if (!$user)
+        if (!$user) {
             throw new SmiceException(
                 SmiceException::HTTP_NOT_FOUND,
                 SmiceException::E_RESOURCE
             );
+        }
         $user->email_verified = true;
         $user->update();
 
@@ -1448,9 +1467,11 @@ class UserController extends SmiceController
 
     private function distance($latA, $latB, $lonA, $lonB)
     {
-        return acos(sin($this->radians($latA)) * sin($this->radians($latB))
-            + cos($this->radians($latA)) * cos($this->radians($latB))
-            * cos($this->radians($lonA) - $this->radians($lonB))) * 6371;
+        return acos(
+                sin($this->radians($latA)) * sin($this->radians($latB))
+                + cos($this->radians($latA)) * cos($this->radians($latB))
+                * cos($this->radians($lonA) - $this->radians($lonB))
+            ) * 6371;
     }
 
     public function listUsers()
@@ -1467,26 +1488,27 @@ class UserController extends SmiceController
         return new Response($response);
     }
 
-    public function usersFilter($users) {
+    public function usersFilter($users)
+    {
         $filters = $this->params['filters'];
         // si condition
         if (isset($filters['filter_group'])) {
-            $users = $users->whereHas('groups', function($q) use ($filters) {
+            $users = $users->whereHas('groups', function ($q) use ($filters) {
                 $q->whereIn('group.id', ArrayHelper::getIds($filters['filter_group']));
             });
         }
         if (isset($filters['filter_roles'])) {
-            $users = $users->whereHas('roles', function($q) use ($filters) {
+            $users = $users->whereHas('roles', function ($q) use ($filters) {
                 $q->where('role.id', $filters['filter_roles']);
             });
         }
         if (isset($filters['filter_validated_mission'])) {
-            $users = $users->whereHas('userActivity', function($q) use ($filters) {
+            $users = $users->whereHas('userActivity', function ($q) use ($filters) {
                 $q->where('user_activity.validated_mission', '>', $filters['filter_validated_mission']);
             });
         }
         if (isset($filters['filter_user_level_id'])) {
-            $users = $users->whereHas('userActivity', function($q) use ($filters) {
+            $users = $users->whereHas('userActivity', function ($q) use ($filters) {
                 $q->where('user_activity.user_level_id', $filters['filter_user_level_id']['id']);
             });
         }
@@ -1494,7 +1516,7 @@ class UserController extends SmiceController
             $users = $users->where('sleepstatus', $filters['filter_smiceur_type']['id']);
         }
         if (isset($filters['filter_skills'])) {
-            $users = $users->whereHas('skills', function($q) use ($filters) {
+            $users = $users->whereHas('skills', function ($q) use ($filters) {
                 foreach ($filters['filter_skills'] as $skill_id) {
                     $q->where('user_skill.skill_id', $skill_id);
                 }
@@ -1504,7 +1526,9 @@ class UserController extends SmiceController
             if (!isset($filters['filter_address_km'])) {
                 $filters['filter_address_km'] = 10;
             }
-            $users->whereRaw("ACOS(SIN(RADIANS(lat)) * SIN(RADIANS(" . $filters['filter_address_lat'] . ")) + COS(RADIANS(lat)) * COS(RADIANS(" . $filters['filter_address_lat'] . ")) * COS(RADIANS(lon) - RADIANS(" . $filters['filter_address_lon'] . "))) * 6380 < " . $filters['filter_address_km']);
+            $users->whereRaw(
+                "ACOS(SIN(RADIANS(lat)) * SIN(RADIANS(" . $filters['filter_address_lat'] . ")) + COS(RADIANS(lat)) * COS(RADIANS(" . $filters['filter_address_lat'] . ")) * COS(RADIANS(lon) - RADIANS(" . $filters['filter_address_lon'] . "))) * 6380 < " . $filters['filter_address_km']
+            );
         }
         return $users;
     }

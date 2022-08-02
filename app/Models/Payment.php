@@ -71,7 +71,7 @@ class Payment extends SmiceModel implements iRest, iProtected
         'transfer_status_date',
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'user_id' => 'integer|required',
         'ask_payment_date' => 'date|required',
         'payment_done_date' => 'date|required',

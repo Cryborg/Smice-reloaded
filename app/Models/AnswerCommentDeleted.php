@@ -36,7 +36,7 @@ class AnswerCommentDeleted extends SmiceModel
 
     protected $hidden           = [];
 
-    protected $rules            = [
+    protected array $rules            = [
         'answer_id'                 => 'integer|required',
         'question_row_comment_id'   => 'integer|required',
         'comment'                   => 'string'

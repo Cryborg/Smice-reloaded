@@ -282,7 +282,7 @@ class Mission extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by',
     ];
 
-    protected $list_rows        = [
+    protected array $list_rows        = [
         'name',
         'internal_name',
         'hours',
@@ -300,7 +300,7 @@ class Mission extends SmiceModel implements iREST, iProtected, iTranslatable
         'disable_seq_condition'
     ];
 
-    protected $rules            = [
+    protected array $rules            = [
         'name'                      => 'string|required|unique_with:mission,society_id,{id}',
         'type'                      => 'string|required|in:smicer,investigator',
         'internal_name'             => 'string|required',

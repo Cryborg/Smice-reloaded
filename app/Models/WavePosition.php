@@ -33,7 +33,7 @@ class WavePosition extends Model
         'id'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'wave_user_id'     => 'required',
         'position_date'    => 'date|required'
     ];

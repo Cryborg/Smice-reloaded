@@ -33,7 +33,7 @@ class AnswerImageDeleted extends SmiceModel
 
     protected $hidden           = [];
 
-    protected $rules            = [
+    protected array $rules            = [
         'answer_id'                 => 'integer|required',
         'url'                       => 'string'
     ];

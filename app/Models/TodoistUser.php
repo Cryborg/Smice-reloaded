@@ -45,7 +45,7 @@ class TodoistUser extends SmiceModel
         'created_by'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'todoist_api_user_id' => 'integer|required',
         'user_id' => 'integer|required|read:users',
         'society_id' => 'integer|required|read:societies',

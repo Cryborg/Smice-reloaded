@@ -44,13 +44,13 @@ class ActionplanComments extends SmiceModel implements iREST
     ];
 
     protected $with = ['createdBy'];
-   
+
     protected $hidden = [
     ];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
-    protected $rules = [
+    protected array $rules = [
     ];
 
     public static function getURI()

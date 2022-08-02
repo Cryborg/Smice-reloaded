@@ -35,7 +35,7 @@ class Document extends SmiceModel implements iREST, iProtected
     protected $primarykey           = 'id';
 
     public $timestamps              = false;
-    
+
     protected $fillable             = [
         'id',
         'document_id',
@@ -47,10 +47,10 @@ class Document extends SmiceModel implements iREST, iProtected
 
     protected $hidden               = [];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
     ];
 
     public static function getURI()

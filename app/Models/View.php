@@ -97,14 +97,14 @@ class View extends SmiceModel implements iREST, iProtected
     protected $hidden = [
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'name',
         'type',
         'filters',
         'created_by',
     ];
 
-    protected $rules        = [
+    protected array $rules        = [
         'name'              => 'required|string|required',
         'type'              => 'string|required,in:'.self::TYPE_DASHBOARD.','.self::TYPE_CRITERIA.','.self::TYPE_RANKING.','.self::TYPE_ACTIONPLAN.','.self::TYPE_REPORT,
         'filters'           => 'required|array',

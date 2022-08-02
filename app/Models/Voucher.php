@@ -76,7 +76,7 @@ class Voucher extends SmiceModel implements iRest, iProtected
         'voucher_file_id',
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'user_id' => 'integer|required',
         'ask_voucher_date' => 'date|required',
         'voucher_status_id' => 'integer|required',

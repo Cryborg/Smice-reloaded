@@ -14,7 +14,7 @@ class ResultCompareToAxe extends SmiceModel
 
     protected $hidden       = [];
 
-    protected $rules        = [];
+    protected array $rules        = [];
 
-    
+
 }

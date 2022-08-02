@@ -83,7 +83,7 @@ class AlertDone extends Model
 	    'created_by'
     ];
 
-	protected $rules            = [
+	protected array $rules            = [
 		'scheduled_alert'       => 'nullable|string',
         'scheduled_for'         => 'nullable|date',
         'alert_id'              => 'integer|required|read:alert|exists:alert,id',
@@ -120,7 +120,7 @@ class AlertDone extends Model
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 
     public function contact()

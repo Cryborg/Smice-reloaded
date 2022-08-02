@@ -55,7 +55,7 @@ class SepaFile extends SmiceModel implements iRest, iProtected
         'status',
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'transaction' => 'integer|required',
         'amount' => 'decimal|required',
     ];

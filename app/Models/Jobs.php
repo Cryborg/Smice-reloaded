@@ -35,7 +35,7 @@ class Jobs extends SmiceModel
 
     public $timestamps = false;
 
-    protected $rules = [
+    protected array $rules = [
         'queue'        => 'string|required',
         'payload'      => 'string|required',
         'attempts'     => 'integer|required',
@@ -44,7 +44,7 @@ class Jobs extends SmiceModel
         'created_at'   => 'integer|required'
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'queue',
         'payload',
         'attempts',

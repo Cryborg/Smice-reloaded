@@ -57,7 +57,7 @@ class MailLog extends SmiceModel implements iREST, iProtected
 
     protected $fillable         = [];
 
-    protected $list_rows        = [
+    protected array $list_rows        = [
         'to',
         'from',
         'subject',
@@ -65,7 +65,7 @@ class MailLog extends SmiceModel implements iREST, iProtected
         'date_send'
     ];
 
-    protected $rules            = [];
+    protected array $rules            = [];
 
     public static function getURI()
     {

@@ -62,7 +62,7 @@ class VoucherFile extends SmiceModel implements iRest, iProtected
         'Traitée'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'transactions' => 'integer|required',
         'amount' => 'decimal|required',
     ];

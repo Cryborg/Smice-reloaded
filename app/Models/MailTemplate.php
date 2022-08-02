@@ -61,12 +61,12 @@ class MailTemplate extends SmiceModel implements iREST, iProtected
         'created_by'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name',
         'description'
     ];
 
-    protected $rules            = [
+    protected array $rules            = [
         'name'          => 'string|required|unique_with:mail_template,society_id,{id}',
         'html'          => 'string|required',
         'attachments'   => 'array_array:type,name,content',

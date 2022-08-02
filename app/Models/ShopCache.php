@@ -16,19 +16,19 @@ namespace App\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ShopCache whereShopid($value)
  * @mixin \Eloquent
  */
-class ShopCache extends SmiceModel 
+class ShopCache extends SmiceModel
 {
     protected $table        = 'shop_cache';
 
     public $timestamps      = false;
 
-    protected $rules = [
+    protected array $rules = [
         'shopid'             => 'integer|required',
         'uuid'                => 'string|required'
     ];
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 }

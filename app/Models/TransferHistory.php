@@ -57,7 +57,7 @@ class TransferHistory extends SmiceModel implements iREST, iProtected, iTranslat
 
     protected $hidden           = [];
 
-    protected $rules            = [
+    protected array $rules            = [
         'filename'      => 'string|required',
         'operations'    => 'integer|required',
         'amount'        => 'decimal|required',

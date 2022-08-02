@@ -45,13 +45,13 @@ class ActionplanHistory extends SmiceModel implements iREST
         'created_at',
         'snapshot',
     ];
-   
+
     protected $hidden = [
     ];
 
-    protected $list_rows = [];
+    protected array $list_rows = [];
 
-    protected $rules = [
+    protected array $rules = [
     ];
 
     public static function getURI()

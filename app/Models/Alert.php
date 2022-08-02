@@ -109,7 +109,7 @@ class Alert extends SmiceModel implements iREST, iProtected
     const TYPE_CRITERION_A = 'criteria_a';
     const TYPE_CRITERION_B = 'criteria_b';
 
-    // Options : 
+    // Options :
     // 1. Pilotage de mon programme
     // 2. Animation de mon programme
     // 3. Envoi périodique
@@ -159,7 +159,7 @@ class Alert extends SmiceModel implements iREST, iProtected
 	    'created_by'
     ];
 
-	protected $rules            = [
+	protected array $rules            = [
 		'society_id'            => 'integer|required|read:societies',
         'name'                  => 'string|required|unique_with:mission,society_id,{id}',
         'option'                => 'integer|required|min:1|in:1,2,3',

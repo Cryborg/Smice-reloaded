@@ -28,7 +28,7 @@ class TemplateSign extends SmiceModel
     protected $primarykey           = 'id';
 
     public $timestamps              = false;
-    
+
     protected $fillable             = [
 
         'id',
@@ -40,10 +40,10 @@ class TemplateSign extends SmiceModel
 
     protected $hidden               = [];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
     ];
 
     public static function getURI()

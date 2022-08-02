@@ -54,13 +54,13 @@ class CriteriaA extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'name' => 'array|required',
         'society_id' => 'integer|required',
         'created_by' => 'integer|required'
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'society_id',
         'name',
         'created_by'

@@ -56,14 +56,14 @@ class waveTargetConversationPrivate extends SmiceModel implements iREST, iProtec
         'created_by'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'message'                  => 'required|string',
         'wave_target_id'           => 'required|integer|read:targets',
         'question_id'              => 'integer|read:questions',
         'status'                   => 'in:' . self::STATUS_IN_PROGRESS . ',' . self::STATUS_CLOSE,
         'created_by'               => 'required|integer|read:users'
     ];
-    protected $list_rows = [
+    protected array $list_rows = [
         'message',
         'wave_target_id',
         'question_id',

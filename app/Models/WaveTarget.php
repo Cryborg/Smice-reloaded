@@ -311,7 +311,7 @@ class WaveTarget extends SmiceModel implements iREST, iProtected
 
     protected $hidden               = [];
 
-    protected $rules                = [
+    protected array $rules                = [
         'mission_id'                => 'required|integer|read:missions',
         'shop_id'                   => 'required|integer|read:shops',
         'wave_id'                   => 'required|integer|read:waves',
@@ -366,7 +366,7 @@ class WaveTarget extends SmiceModel implements iREST, iProtected
         'link'                      => 'json',
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'mission_id',
         'wave_id',
         'program_id',
@@ -491,7 +491,7 @@ class WaveTarget extends SmiceModel implements iREST, iProtected
                         }
                     }
                     }
-                    
+
             }
         });
     }
@@ -538,7 +538,7 @@ class WaveTarget extends SmiceModel implements iREST, iProtected
 
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 
     public function user()

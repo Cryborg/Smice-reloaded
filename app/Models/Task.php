@@ -34,7 +34,7 @@ class Task extends SmiceModel
         'user_id'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'name'      => 'string|required|unique_with:task,user_id,{id}',
         'user_id'   => 'integer|required|exists:user,id',
         'status'    => 'boolean'

@@ -84,7 +84,7 @@ class QuestionRow extends SmiceModel
         'comment_model'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'name' => 'array|required_if:image,""',
         'question_id' => 'integer|required',
         'image' => 'string|required_if:name,""',

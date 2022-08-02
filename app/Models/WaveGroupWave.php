@@ -31,7 +31,7 @@ class WaveGroupWave extends SmiceModel
         'group_wave_id'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'wave_id'    => 'integer|required',
         'group_wave_id'     => 'integer'
     ];

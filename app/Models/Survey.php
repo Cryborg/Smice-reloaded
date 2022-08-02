@@ -104,7 +104,7 @@ class Survey extends SmiceModel implements iREST, iProtected, iTranslatable
         'created_by'
     ];
 
-    protected $rules        = [
+    protected array $rules        = [
         'name'              => 'array|required',
         'image'             => 'string',
         'image_end'         => 'string',
@@ -118,7 +118,7 @@ class Survey extends SmiceModel implements iREST, iProtected, iTranslatable
         'ended'             => 'boolean',
     ];
 
-    protected $list_rows    = [
+    protected array $list_rows    = [
         'name',
         'quiz',
         'user_survey',

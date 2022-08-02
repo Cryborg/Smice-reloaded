@@ -64,7 +64,7 @@ class PassageProof extends SmiceModel
 
     protected $hidden           = [];
 
-    protected $rules            = [
+    protected array $rules            = [
         'user_id'           => 'integer|required',
         'survey_id'         => 'integer|required',
         'url'               => 'string',
@@ -95,7 +95,7 @@ class PassageProof extends SmiceModel
     protected static function boot()
     {
         parent::boot();
- 
+
         self::creating(function (self $passage) {
             if ($passage->isDirty('position')) {
                 $passage->geoloc_timestamp = Carbon::now();

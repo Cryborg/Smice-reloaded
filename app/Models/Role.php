@@ -91,7 +91,7 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
         'created_by'
     ];
 
-    protected $list_rows            = [
+    protected array $list_rows            = [
         'name',
         'public',
         'backoffice_access',
@@ -103,7 +103,7 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
         'edit_survey'
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'society_id'                    => 'required|integer',
         'public'                        => 'boolean',
         'backoffice_access'             => 'boolean',

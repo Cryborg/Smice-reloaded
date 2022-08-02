@@ -123,7 +123,7 @@ class Wave extends SmiceModel implements iREST, iProtected
         'created_by',
     ];
 
-    protected $list_rows = [
+    protected array $list_rows = [
         'id',
         'name',
         'date_start',
@@ -133,7 +133,7 @@ class Wave extends SmiceModel implements iREST, iProtected
         'society_id'
     ];
 
-    protected $rules = [
+    protected array $rules = [
         'name'                         => 'string|required|unique_with:wave,society_id,{id}',
         'date_start'                   => 'date|required',
         'date_end'                     => 'date|required|after:date_start',
@@ -176,7 +176,7 @@ class Wave extends SmiceModel implements iREST, iProtected
 
     public function shops()
     {
-        return $this->belongsToMany('App\Models\Shop', 'wave_shop');
+        return $this->belongsToMany(Shop::class, 'wave_shop');
     }
 
     public function missions()

@@ -37,7 +37,7 @@ class AxeTagItem extends SmiceModel implements iREST, iProtected
         'axe_tag_item_id',
     ];
 
-    protected $rules                = [
+    protected array $rules                = [
         'axe_tag_id' 		=> 'integer|required|exists:axe_tag,id',
         'axe_tag_item_type' => 'string|required|in:'.Axe::class.','.AxeDirectory::class,
         'axe_tag_item_id'   => 'integer|required',

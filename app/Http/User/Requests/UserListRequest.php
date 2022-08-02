@@ -6,11 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserListRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
-            'groups' => 'array',
-            'ids' => 'array',
+            'filter' => [
+                'groups' => 'array',
+                'ids' => 'array',
+            ]
         ];
     }
 }
