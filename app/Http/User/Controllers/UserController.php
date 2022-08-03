@@ -3,39 +3,41 @@
 namespace App\Http\User\Controllers;
 
 use App\Classes\Auth\CreateJWTToken;
+use App\Classes\AvatarService;
+use App\Classes\ExcelValueBinder;
+use App\Classes\Helpers\ArrayHelper;
 use App\Classes\Helpers\GeoHelper;
 use App\Classes\Services\UserService;
 use App\Classes\SmiceClasses\SmiceFinder;
 use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Exceptions\SmiceException;
+use App\Http\Skill\Models\Skill;
+use App\Http\Skill\Requests\AddSkillsRequest;
+use App\Http\Skill\Resources\SkillResourceCollection;
 use App\Http\SmiceController;
 use App\Http\User\Models\User;
 use App\Http\User\Models\UserLevel;
 use App\Http\User\Requests\UserListRequest;
-use App\Http\User\Resources\UserListResourceCollection;
+use App\Http\User\Resources\UserResourceCollection;
 use App\Jobs\UserMessageJob;
+use App\Models\Alias;
 use App\Models\Answer;
+use App\Models\Group;
 use App\Models\Role;
 use App\Models\Shop;
-use App\Models\Group;
+use App\Models\Society;
 use App\Models\Survey;
 use App\Models\WaveTarget;
 use App\Models\WaveUser;
-use App\Models\Alias;
-use App\Models\Skill;
-use App\Models\Society;
+use Carbon\Carbon;
+use Faker\Factory;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Faker\Factory;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use App\Classes\ExcelValueBinder;
-use App\Classes\AvatarService;
-use App\Classes\Helpers\ArrayHelper;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends SmiceController
@@ -115,9 +117,9 @@ class UserController extends SmiceController
     /**
      * @param UserListRequest $request
      *
-     * @return UserListResourceCollection
+     * @return UserResourceCollection
      */
-    public function list(UserListRequest $request): UserListResourceCollection
+    public function list(UserListRequest $request): UserResourceCollection
     {
         $groups = json_decode($request->input('filter.groups'));
         $users = json_decode($request->input('filter.ids'));
@@ -137,7 +139,7 @@ class UserController extends SmiceController
             $userBuilder->whereIn('id', $users);
         }
 
-        return new UserListResourceCollection(
+        return new UserResourceCollection(
             $userBuilder->paginate(10)
         );
     }
@@ -167,77 +169,46 @@ class UserController extends SmiceController
     }
 
     /**
-     * @return Response
+     * @return UserResourceCollection
      */
-    public function getSmicers(): Response
+    public function getSmicers(): UserResourceCollection
     {
+        $users = QueryBuilder::for(User::class);
+
         if ($this->user->society_id <> 1) {
-            $user = User::where('society_id', $this->user->society_id);
+            $users->where('society_id', $this->user->society_id);
         }
 
-        $response = (new SmiceFinder($user, $this->params, $this->user))->get();
-
-        return new Response($response);
+        return new UserResourceCollection(
+            $users->paginate(10)
+        );
     }
 
-    public function getReaders()
+    public function getReaders(): UserResourceCollection
     {
-        $user = new User();
-        $user->where('isadmin', true);
-        $user = $user->newListQuery();
-
-        $response = (new SmiceFinder($user, $this->params, $this->user))->get();
-        return new Response($response);
+        return new UserResourceCollection(
+            QueryBuilder::for(User::class)
+                ->where('isadmin', true)
+                ->paginate(10)
+        );
     }
 
-    public function addSkills(Request $request)
+    /**
+     */
+    public function addSkills(AddSkillsRequest $request, User $user): Response
     {
-        $user_id = $request->route('id');
         $skills = $request->input('skills', []);
 
-        if (!$user_id) {
-            throw new SmiceException(
-                SmiceException::HTTP_UNPROCESSABLE_ENTITY,
-                SmiceException::E_RESOURCE,
-                'Parameter is missing'
-            );
-        }
-
-        DB::table('user_skill')->where('user_id', $user_id)->delete();
-
-        $data = [];
-
-        foreach ($skills as $skill_id) {
-            $data[] = [
-                'user_id' => $user_id,
-                'skill_id' => $skill_id
-            ];
-        }
-
-        DB::table('user_skill')->insert($data);
+        $user->skills()->sync($skills);
 
         return new Response(['data' => 'OK']);
     }
 
-    public function getskills(Request $request)
+    public function getskills(Request $request, User $user)
     {
-        $user_id = $request->route('id');
-
-        if (!$user_id) {
-            throw new SmiceException(
-                SmiceException::HTTP_UNPROCESSABLE_ENTITY,
-                SmiceException::E_RESOURCE,
-                'Parameter is missing'
-            );
-        }
-        $skills_id = DB::table('user_skill')->select('skill_id')->where('user_id', $user_id)->get();
-        $skills = Skill::listQuery();
-
-        $skills->whereIn('id', $skills_id);
-
-        $skills = (new SmiceFinder($skills, $this->params, $this->user))->get();
-
-        return new Response($skills);
+        return new SkillResourceCollection(
+            $user->skills
+        );
     }
 
     /**

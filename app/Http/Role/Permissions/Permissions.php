@@ -2,23 +2,26 @@
 
 namespace App\Classes\Permissions;
 
+use App\Http\Skill\Models\Skill;
+use App\Models\Actionplan;
+use App\Models\Alert;
 use App\Models\AlertVariable;
+use App\Models\Alias;
 use App\Models\Answer;
+use App\Models\Axe;
+use App\Models\AxeDirectory;
 use App\Models\AxeTag;
+use App\Models\Briefing;
 use App\Models\Checklist;
 use App\Models\Color;
 use App\Models\Conversation;
-use App\Models\FailedJobs;
-use App\Models\Graph;
-use App\Models\Alert;
-use App\Models\Alias;
-use App\Models\Axe;
-use App\Models\AxeDirectory;
-use App\Models\Briefing;
 use App\Models\Criteria;
 use App\Models\CriteriaA;
 use App\Models\CriteriaB;
 use App\Models\Dashboard;
+use App\Models\FailedJobs;
+use App\Models\Gain;
+use App\Models\Graph;
 use App\Models\GraphTemplate;
 use App\Models\Group;
 use App\Models\GroupWave;
@@ -27,30 +30,27 @@ use App\Models\Jobs;
 use App\Models\MailLog;
 use App\Models\MailTemplate;
 use App\Models\Mission;
+use App\Models\Payment;
 use App\Models\Program;
 use App\Models\Question;
 use App\Models\Role;
 use App\Models\Scenario;
 use App\Models\Sequence;
 use App\Models\Shop;
-use App\Models\Skill;
 use App\Models\Society;
 use App\Models\Survey;
 use App\Models\Tags;
 use App\Models\Theme;
 use App\Models\Todoist;
-use App\Models\Actionplan;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\View;
 use App\Models\ViewShare;
 use App\Models\Wave;
-use App\Models\Gain;
-use App\Models\Payment;
 use App\Models\WaveTarget;
 use App\Models\WaveTargetConversation;
-use App\Models\waveTargetConversationPrivate;
 use App\Models\waveTargetConversationGlobal;
+use App\Models\waveTargetConversationPrivate;
 use Illuminate\Support\Str;
 
 class Permissions
@@ -456,7 +456,7 @@ class Permissions
         'progress' => [
             'consult'           => PermissionMode::OFF
         ]
-       
+
     ];
 
     private static $homeboard_skell = [
@@ -1131,9 +1131,9 @@ class Permissions
                 $mode_2 = $permissions_2[$module][$action];
 
                 if ($mode_2 > $mode)
-                    $permissions_1[$module][$action] = $mode_2;    
+                    $permissions_1[$module][$action] = $mode_2;
                 }
-                
+
             }
         }
 

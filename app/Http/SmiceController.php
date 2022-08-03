@@ -10,6 +10,8 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use PHPOpenSourceSaver\JWTAuth\JWTAuth;
 
 class SmiceController extends Controller
 {
@@ -51,7 +53,7 @@ class SmiceController extends Controller
      */
     public function __construct(Request $request)
     {
-        $this->user = $request->user;
+        $this->user = auth()->user();
         $this->society = $request->society;
         $this->model = $request->model;
         $this->useragent = $request->server('HTTP_USER_AGENT');
