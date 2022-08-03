@@ -116,16 +116,26 @@ class UserController extends SmiceController
      */
     public function list(UserListRequest $request): UserListResourceCollection
     {
-        $groups = json_decode($request->input('filter.groups'), true);
+        $groups = json_decode($request->input('filter.groups'));
+        $users = json_decode($request->input('filter.ids'));
+
+        $userBuilder = QueryBuilder::for(User::class);
+
+        if ($groups) {
+            $userBuilder->whereHas(
+                'groups',
+                function (Builder $builder) use ($groups) {
+                    $builder->whereIn('group_id', $groups);
+                }
+            );
+        }
+
+        if ($users) {
+            $userBuilder->whereIn('id', $users);
+        }
+
         return new UserListResourceCollection(
-            QueryBuilder::for(User::class)
-                ->whereHas(
-                    'groups',
-                    function (Builder $builder) use ($groups) {
-                        $builder->whereIn('group_id', $groups);
-                    }
-                )
-                ->paginate(10)
+            $userBuilder->paginate(10)
         );
     }
 
