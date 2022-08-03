@@ -21,42 +21,41 @@ class SmiceController extends Controller
      * The user making the request
      * @var null|User
      */
-    protected $user         = null;
+    protected ?User $user = null;
 
     /**
      * The society on which the user is making a request
      * @var null|Society
      */
-    protected $society      = null;
+    protected ?Society $society = null;
 
     /**
      * The model being touched by the request
      * @var mixed
      */
-    protected $model        = null;
+    protected mixed $model = null;
 
     /**
      * The request parameters
      * @var null|array
      */
-    protected $params       = null;
+    protected ?array $params = null;
 
     /**
      * The user agent information
-     * @var null|array
      */
-    protected $useragent       = null;
+    protected string|array|null $useragent = null;
 
     /**
      * @param Request $request
      */
-    public function             __construct(Request $request)
+    public function __construct(Request $request)
     {
-        $this->user             = $request->user;
-        $this->society          = $request->society;
-        $this->model            = $request->model;
-        $this->useragent        = $request->server('HTTP_USER_AGENT');
-        $this->params           = $request->all();
+        $this->user = $request->user;
+        $this->society = $request->society;
+        $this->model = $request->model;
+        $this->useragent = $request->server('HTTP_USER_AGENT');
+        $this->params = $request->all();
 
         // Initialize the AlertHook class
         if ($this->society) {

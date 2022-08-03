@@ -40,7 +40,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends SmiceController
 {
-    private $userService;
+    private UserService $userService;
 
     /**
      * UserController constructor.
@@ -56,7 +56,7 @@ class UserController extends SmiceController
      * @param Request $request
      * @return Response
      */
-    public function showSurvey(Request $request)
+    public function showSurvey(Request $request): Response
     {
         $user_id = ($request->route('id_me') == 'me')
             ? $this->user->getKey()
@@ -83,7 +83,10 @@ class UserController extends SmiceController
         }
     }
 
-    public function getToken(Request $request)
+    /**
+     * @throws SmiceException
+     */
+    public function getToken(Request $request): Response
     {
         $user_id = $request->route('user_id', null);
         if ($this->user->isadmin === false) {
@@ -168,10 +171,8 @@ class UserController extends SmiceController
      */
     public function getSmicers(): Response
     {
-        $user = new User();
-        $user = $user->newListQuery();
         if ($this->user->society_id <> 1) {
-            $user->where('society_id', $this->user->society_id);
+            $user = User::where('society_id', $this->user->society_id);
         }
 
         $response = (new SmiceFinder($user, $this->params, $this->user))->get();
