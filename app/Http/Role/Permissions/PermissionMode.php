@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Classes\Permissions;
+namespace App\Http\Role\Permissions;
 
 class PermissionMode
 {
-    const ADMIN     = 3;
-    const SOCIETY   = 2;
-    const SELF      = 1;
+    public const ADMIN = 3;
+    public const SOCIETY = 2;
+    public const SELF = 1;
 
-    const ON        = true;
-    const OFF       = false;
+    public const ON = true;
+    public const OFF = false;
 }

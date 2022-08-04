@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Classes\Permissions;
+namespace App\Http\Role\Permissions;
 
 use App\Http\Group\Models\Group;
 use App\Http\Skill\Models\Skill;
+use App\Http\User\Models\User;
+use App\Http\User\Models\UserPermission;
 use App\Models\Actionplan;
 use App\Models\Alert;
 use App\Models\AlertVariable;
@@ -42,20 +44,18 @@ use App\Models\Survey;
 use App\Models\Tags;
 use App\Models\Theme;
 use App\Models\Todoist;
-use App\Models\User;
-use App\Models\UserPermission;
 use App\Models\View;
 use App\Models\ViewShare;
 use App\Models\Wave;
 use App\Models\WaveTarget;
 use App\Models\WaveTargetConversation;
 use App\Models\waveTargetConversationGlobal;
-use App\Models\waveTargetConversationPrivate;
+use App\Models\WaveTargetConversationPrivate;
 use Illuminate\Support\Str;
 
 class Permissions
 {
-    private static $simple_skell = [
+    private static array $simple_skell = [
         'alerts' => [
             Action::READ   => PermissionMode::OFF,
             Action::MODIFY => PermissionMode::OFF,
@@ -108,7 +108,7 @@ class Permissions
         ]
     ];
 
-    private static $advanced_skell = [
+    private static array $advanced_skell = [
         'alerts' => [
             Action::READ   => PermissionMode::OFF,
             Action::MODIFY => PermissionMode::OFF,
@@ -344,7 +344,7 @@ class Permissions
         ]
     ];
 
-    private static $backoffice_menu_skell = [
+    private static array $backoffice_menu_skell = [
         'societies' => [
             'consult'           => PermissionMode::OFF
         ],
@@ -459,7 +459,7 @@ class Permissions
 
     ];
 
-    private static $homeboard_skell = [
+    private static array $homeboard_skell = [
         'login_history' => [
             'consult'           => PermissionMode::OFF
         ],
@@ -468,7 +468,7 @@ class Permissions
         ]
     ];
 
-    private static $modules_classes = [
+    private static array $modules_classes = [
         'alerts'                => Alert::class,
         'axes'                  => Axe::class,
         'axeDirectories'        => AxeDirectory::class,
@@ -520,7 +520,7 @@ class Permissions
         'messages'              => Conversation::class,
     ];
 
-    public static function getSimplePermissions()
+    public static function getSimplePermissions(): array
     {
         $permissions = static::$simple_skell;
 
@@ -533,7 +533,7 @@ class Permissions
         return $permissions;
     }
 
-    public static function getAdvancedPermissions()
+    public static function getAdvancedPermissions(): array
     {
         $permissions        = static::$advanced_skell;
 
@@ -546,7 +546,7 @@ class Permissions
         return $permissions;
     }
 
-    public static function getBackofficeMenuPermissions()
+    public static function getBackofficeMenuPermissions(): array
     {
         $permissions        = static::$backoffice_menu_skell;
 
@@ -559,7 +559,7 @@ class Permissions
         return $permissions;
     }
 
-    public static function getHomeboardPermissions()
+    public static function getHomeboardPermissions(): array
     {
         $permissions        = static::$homeboard_skell;
 
@@ -581,7 +581,7 @@ class Permissions
         return false;
     }
 
-    public static function cleanSimplePermissions(array $skell)
+    public static function cleanSimplePermissions(array $skell): array
     {
         $clean_skell        = static::getSimplePermissions();
 
@@ -596,7 +596,7 @@ class Permissions
         return $clean_skell;
     }
 
-    public static function cleanAdvancedPermissions(array $skell)
+    public static function cleanAdvancedPermissions(array $skell): array
     {
         $clean_skell        = static::getAdvancedPermissions();
 
@@ -619,7 +619,7 @@ class Permissions
         return $clean_skell;
     }
 
-    public static function societiesRead()
+    public static function societiesRead(): array
     {
         return [
             'axes' => [
@@ -649,7 +649,7 @@ class Permissions
         ];
     }
 
-    public static function societiesDelete()
+    public static function societiesDelete(): array
     {
         return [
             'axes' => [
@@ -673,7 +673,7 @@ class Permissions
         ];
     }
 
-    public static function societiesCreateUpdate()
+    public static function societiesCreateUpdate(): array
     {
         return [
             'axes' => [
@@ -697,7 +697,7 @@ class Permissions
         ];
     }
 
-    public static function shopsRead()
+    public static function shopsRead(): array
     {
         return [
             'axes' => [
@@ -712,7 +712,7 @@ class Permissions
         ];
     }
 
-    public static function shopsDelete()
+    public static function shopsDelete(): array
     {
         return [
             'axes' => [
@@ -727,7 +727,7 @@ class Permissions
         ];
     }
 
-    public static function shopsCreateUpdate()
+    public static function shopsCreateUpdate(): array
     {
         return [
             'axes' => [
@@ -742,7 +742,7 @@ class Permissions
         ];
     }
 
-    public static function usersRead()
+    public static function usersRead(): array
     {
         return [
             'users' => [
@@ -751,7 +751,7 @@ class Permissions
         ];
     }
 
-    public static function usersDelete()
+    public static function usersDelete(): array
     {
         return [
             'users' => [
@@ -760,7 +760,7 @@ class Permissions
         ];
     }
 
-    public static function usersCreateUpdate()
+    public static function usersCreateUpdate(): array
     {
         return [
             'users' => [
@@ -769,7 +769,7 @@ class Permissions
         ];
     }
 
-    public static function surveysRead()
+    public static function surveysRead(): array
     {
         return [
             'sequences' => [
@@ -799,7 +799,7 @@ class Permissions
         ];
     }
 
-    public static function surveysDelete()
+    public static function surveysDelete(): array
     {
         return [
             'sequences' => [
@@ -829,7 +829,7 @@ class Permissions
         ];
     }
 
-    public static function surveysCreateUpdate()
+    public static function surveysCreateUpdate(): array
     {
         return [
             'sequences' => [
@@ -859,7 +859,7 @@ class Permissions
         ];
     }
 
-    public static function missionsRead()
+    public static function missionsRead(): array
     {
         return [
             'missions' => [
@@ -880,7 +880,7 @@ class Permissions
         ];
     }
 
-    public static function missionsDelete()
+    public static function missionsDelete(): array
     {
         return [
             'missions' => [
@@ -901,7 +901,7 @@ class Permissions
         ];
     }
 
-    public static function missionsCreateUpdate()
+    public static function missionsCreateUpdate(): array
     {
         return [
             'missions' => [
@@ -925,7 +925,7 @@ class Permissions
         ];
     }
 
-    public static function alertsRead()
+    public static function alertsRead(): array
     {
         return [
             'alerts' => [
@@ -934,7 +934,7 @@ class Permissions
         ];
     }
 
-    public static function alertsDelete()
+    public static function alertsDelete(): array
     {
         return [
             'alerts' => [
@@ -943,7 +943,7 @@ class Permissions
         ];
     }
 
-    public static function  alertsCreateUpdate()
+    public static function  alertsCreateUpdate(): array
     {
         return [
             'alerts' => [
@@ -952,7 +952,7 @@ class Permissions
         ];
     }
 
-    public static function  dashboardsRead()
+    public static function  dashboardsRead(): array
     {
         return [
             'dashboards' => [
@@ -967,7 +967,7 @@ class Permissions
         ];
     }
 
-    public static function  dashboardsDelete()
+    public static function  dashboardsDelete(): array
     {
         return [
             'dashboards' => [
@@ -982,7 +982,7 @@ class Permissions
         ];
     }
 
-    public static function  dashboardsCreateUpdate()
+    public static function  dashboardsCreateUpdate(): array
     {
         return [
             'dashboards' => [
@@ -997,7 +997,7 @@ class Permissions
         ];
     }
 
-    public static function  rolesRead()
+    public static function  rolesRead(): array
     {
         return [
             'roles' => [
@@ -1009,7 +1009,7 @@ class Permissions
         ];
     }
 
-    public static function  rolesDelete()
+    public static function  rolesDelete(): array
     {
         return [
             'roles' => [
@@ -1021,7 +1021,7 @@ class Permissions
         ];
     }
 
-    public static function  rolesCreateUpdate()
+    public static function  rolesCreateUpdate(): array
     {
         return [
             'roles' => [
@@ -1033,7 +1033,7 @@ class Permissions
         ];
     }
 
-    public static function  gainsRead()
+    public static function  gainsRead(): array
     {
         return [
             'gains' => [
@@ -1045,7 +1045,7 @@ class Permissions
         ];
     }
 
-    public static function  gainsDelete()
+    public static function  gainsDelete(): array
     {
         return [
             'gains' => [
@@ -1057,7 +1057,7 @@ class Permissions
         ];
     }
 
-    public static function  gainsCreateUpdate()
+    public static function  gainsCreateUpdate(): array
     {
         return [
             'gains' => [
@@ -1069,7 +1069,7 @@ class Permissions
         ];
     }
 
-    public static function messagesRead()
+    public static function messagesRead(): array
     {
         return [
             'messages' => [
@@ -1078,7 +1078,7 @@ class Permissions
         ];
     }
 
-    public static function  messagesDelete()
+    public static function  messagesDelete(): array
     {
         return [
             'messages' => [
@@ -1087,7 +1087,7 @@ class Permissions
         ];
     }
 
-    public static function  messagesCreateUpdate()
+    public static function  messagesCreateUpdate(): array
     {
         return [
             'messages' => [
@@ -1096,7 +1096,7 @@ class Permissions
         ];
     }
 
-    public static function  generateAdvancedPermissions(array $simple_permissions)
+    public static function  generateAdvancedPermissions(array $simple_permissions): array
     {
         $clean_skell        = static::getAdvancedPermissions();
 
@@ -1120,7 +1120,7 @@ class Permissions
         return $clean_skell;
     }
 
-    public static function mergePermissions(array $permissions_1, array $permissions_2)
+    public static function mergePermissions(array $permissions_1, array $permissions_2): array
     {
         foreach ($permissions_1 as $module => $actions)
         {
@@ -1140,7 +1140,7 @@ class Permissions
         return $permissions_1;
     }
 
-    public static function  areDifferent(array $permissions_1, array $permissions_2)
+    public static function  areDifferent(array $permissions_1, array $permissions_2): bool
     {
         foreach ($permissions_1 as $module => $actions) {
             foreach ($actions as $action => $mode)

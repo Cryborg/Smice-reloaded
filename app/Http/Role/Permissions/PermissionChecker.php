@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Classes\Permissions;
+namespace App\Http\Role\Permissions;
 
 use App\Exceptions\SmiceException;
+use App\Http\User\Models\User;
 use App\Interfaces\iProtected;
 use App\Interfaces\iPublicable;
 use App\Models\SmiceModel;
 use App\Models\Society;
-use App\Models\User;
 
 /**
  * This class contains all the code useful to check to permissions on Smice.

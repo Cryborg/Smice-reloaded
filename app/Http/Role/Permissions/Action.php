@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Classes\Permissions;
+namespace App\Http\Role\Permissions;
 
 class Action
 {

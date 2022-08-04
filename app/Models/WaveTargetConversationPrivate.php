@@ -6,34 +6,7 @@ use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use Carbon\Carbon;
 
-/**
- * App\Models\WaveTargetConversationPrivate
- *
- * @property int $id
- * @property string $message
- * @property int $wave_target_id
- * @property int $question_id
- * @property string $status
- * @property int $created_by
- * @property \Carbon\Carbon $created_at
- * @property-read \App\Models\User $createdBy
- * @property-read \App\Models\Question $question
- * @property-read \App\Models\WaveTarget $waveTarget
- * @property-read \App\Models\Society $society
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel relations()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieve()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieveAll()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereQuestionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\WaveTargetConversation whereWaveTargetId($value)
- * @mixin \Eloquent
- */
-class waveTargetConversationPrivate extends SmiceModel implements iREST, iProtected
+class WaveTargetConversationPrivate extends SmiceModel implements iREST, iProtected
 {
     protected $table                = 'wave_target_conversation_private';
 

@@ -7,32 +7,6 @@ use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use Illuminate\Support\Facades\DB;
 
-
-/**
- * App\Models\ViewShare
- *
- * @property int $id
- * @property int $view_id
- * @property int $society_id
- * @property int|null $user_id
- * @property int|null $group_id
- * @property int $society_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Group\Models\Group[] $group
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $user
- * @property-read \App\Models\View $view
- * @property-read \App\Models\Society $society
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel relations()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieve()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieveAll()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ViewShare whereGroupId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ViewShare whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ViewShare whereSocietyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ViewShare whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ViewShare whereViewId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ViewShare whereSocietyId($value)
- * @mixin \Eloquent
- */
 class ViewShare extends SmiceModel implements iREST, iProtected
 {
 
