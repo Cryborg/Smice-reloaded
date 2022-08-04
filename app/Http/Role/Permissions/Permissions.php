@@ -3,6 +3,7 @@
 namespace App\Http\Role\Permissions;
 
 use App\Http\Group\Models\Group;
+use App\Http\Shops\Models\Shop;
 use App\Http\Skill\Models\Skill;
 use App\Http\User\Models\User;
 use App\Http\User\Models\UserPermission;
@@ -38,7 +39,6 @@ use App\Models\Question;
 use App\Models\Role;
 use App\Models\Scenario;
 use App\Models\Sequence;
-use App\Models\Shop;
 use App\Models\Society;
 use App\Models\Survey;
 use App\Models\Tags;

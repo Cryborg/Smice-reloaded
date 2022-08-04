@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 
@@ -14,7 +15,7 @@ use App\Interfaces\iREST;
  * @property int $axe_directory_id
  * @property-read \App\Models\AxeDirectory $axeDirectory
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SurveyItem[] $items
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shop[] $shops
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Shops\Models\Shop[] $shops
  * @property-read \App\Models\Society $society
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AxeTag[] $axeTags
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()

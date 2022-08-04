@@ -2,17 +2,17 @@
 
 namespace App\Classes\Results;
 
-use App\Models\ActionPlan;
-use App\Models\Alias;
-use App\Models\Wave;
 use App\Classes\Helpers\ArrayHelper;
 use App\Classes\Helpers\CacheHelper;
 use App\Classes\Services\GraphTemplateService;
-use App\Http\Controllers\GraphFilterController;
 use App\Http\Controllers\ExportImageController;
-use App\Models\AnswerImage;
-use App\Models\AnswerFile;
+use App\Http\Controllers\GraphFilterController;
+use App\Http\Shops\Models\Shop;
+use App\Models\ActionPlan;
+use App\Models\Alias;
 use App\Models\AnswerComment;
+use App\Models\AnswerFile;
+use App\Models\AnswerImage;
 use App\Models\Axe;
 use App\Models\AxeDirectory;
 use App\Models\AxeTagItem;
@@ -21,45 +21,43 @@ use App\Models\CriteriaGroup;
 use App\Models\Goal;
 use App\Models\LogModel;
 use App\Models\Program;
-use App\Models\Sequence;
 use App\Models\Result;
-use App\Models\ResultProgram;
-use App\Models\ResultPeriod;
-use App\Models\ResultWave;
-use App\Models\ResultCumulative;
-use App\Models\ResultSurvey;
-use App\Models\ResultShop;
+use App\Models\ResultAnswer;
 use App\Models\ResultAxe;
 use App\Models\ResultAxeAsFilter;
-use App\Models\ResultQuestionAsFilter;
-use App\Models\ResultQuestionLevel;
-use App\Models\ResultTheme;
 use App\Models\ResultCompareToAxe;
 use App\Models\ResultCompareToShop;
-use App\Models\ResultSequence;
-use App\Models\ResultScenario;
-use App\Models\ResultMission;
+use App\Models\ResultCriteria;
 use App\Models\ResultCriteriaA;
 use App\Models\ResultCriteriaB;
-use App\Models\ResultCriteria;
-use App\Models\ResultAnswer;
-use App\Models\ResultJob;
 use App\Models\ResultCriteriaScore;
+use App\Models\ResultCumulative;
 use App\Models\ResultIntervalDate;
 use App\Models\ResultIntervalDateDelivery;
-use App\Models\Shop;
-use App\Models\Theme;
-use App\Models\SurveyItem;
-use App\Models\User;
+use App\Models\ResultJob;
+use App\Models\ResultMission;
+use App\Models\ResultPeriod;
+use App\Models\ResultProgram;
+use App\Models\ResultQuestionAsFilter;
+use App\Models\ResultQuestionLevel;
+use App\Models\ResultScenario;
+use App\Models\ResultSequence;
+use App\Models\ResultShop;
+use App\Models\ResultSurvey;
+use App\Models\ResultTheme;
+use App\Models\ResultWave;
+use App\Models\Sequence;
 use App\Models\Society;
+use App\Models\SurveyItem;
+use App\Models\Theme;
+use App\Models\User;
+use App\Models\Wave;
 use App\Models\WaveTarget;
-use Illuminate\Support\Facades\DB;
+use Cache;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\DB;
 
-
-
-use Cache;
 
 class Results
 {
@@ -105,7 +103,7 @@ class Results
 
     public function queryFilter($model, $filter, $key)
     {
-        //Retour 
+        //Retour
         $result_filter = [];
         if (isset($this->request_filters[$filter]) && $this->request_filters[$filter]) {
             $id = arrayHelper::getIds($this->request_filters[$filter]);
@@ -857,7 +855,7 @@ class Results
         // data (serial)
         //
 
-        
+
         $this->user = is_int($user_id) ? User::find($user_id) : $user_id;
         if ($this->user->disable_cache) {
             $this->disable_cache = "1";
@@ -907,7 +905,7 @@ class Results
                     unset($this->filters['general']['survey']);
         }
 
-        
+
 
         $this->filters['general']['answer'] = $this->_GetAllQuestionsasfilter();
         $this->filters = GraphTemplateService::getFilter($this->filters, $this
@@ -1125,7 +1123,7 @@ class Results
                 }
             }
 
-            //preapre enabledOnSeries 
+            //preapre enabledOnSeries
             $enabledOnSeries = $stroke_width = $dashArray = [];
             $i = -1;
             foreach ($this->series as $s) {
@@ -1624,7 +1622,7 @@ class Results
         $this->sequence_on_criteria = $this->SequenceCriteria($this->survey_id);
         $this->criteria_group = Criteria::whereNotNull('criteria_group_id')->where('society_id', $this->user->current_society_id)->get()->toArray();
         $this->criteria_group_picture = CriteriaGroup::where('society_id', $this->user->current_society_id)->get()->toArray();
-        /* criteria_question : 
+        /* criteria_question :
             type:"text_area"
             criteria_id:28317
             question_id:64467
@@ -1719,10 +1717,10 @@ class Results
                     ->current_society_id)
                     ->select('question_row_name as id')
                     ->selectRaw(
-                        'CASE WHEN SUM(' . $this->score_method . 'weight) > 0 
-                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT)) 
-                ELSE null 
-                END AS score, 
+                        'CASE WHEN SUM(' . $this->score_method . 'weight) > 0
+                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT))
+                ELSE null
+                END AS score,
                 COUNT(distinct wave_target_id) as quantity_row_id'
                     );
                 $result = $result->Where("criteria_id", $criteria['id']);
@@ -2840,7 +2838,7 @@ class Results
                 } else {
                     //get all seq
                     $this->line = $this->AddSequenceLineScore([$val['item_id']], $val['item_id']);
-                    //get critera 
+                    //get critera
                     $save_filter = $this->filters;
                     $this->filters['sequence'] = [$val['item_id']];
                     //if ($this->params['x'] !== 'question_row_name') {
@@ -3049,7 +3047,7 @@ class Results
         $axes_in_shop = DB::table('shop_axe')->select('axe_id')
             ->wherein('shop_id', $shop_id);
 
-       
+
         $axes_in_shop = $axes_in_shop->get();
 
         $this->all_axe = array_map(
@@ -3386,10 +3384,10 @@ class Results
                         ->current_society_id)
                         ->selectRaw(
                             $type . '
-                CASE WHEN SUM(' . $this->score_method . 'weight) > 0 
-                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT)) 
-                ELSE null 
-                END AS score, 
+                CASE WHEN SUM(' . $this->score_method . 'weight) > 0
+                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT))
+                ELSE null
+                END AS score,
                 ' . $x['id'] . ' AS id,
                 COUNT(distinct wave_target_id) as quantity'
                         )->where('scoring', true)
@@ -3424,10 +3422,10 @@ class Results
                     ->select('question_row_name as id')
                     ->selectRaw(
                         $type . '
-                CASE WHEN SUM(' . $this->score_method . 'weight) > 0 
-                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT)) 
-                ELSE null 
-                END AS score, 
+                CASE WHEN SUM(' . $this->score_method . 'weight) > 0
+                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT))
+                ELSE null
+                END AS score,
                 COUNT(distinct question_row_id) as quantity_row_id,
                 COUNT(distinct wave_target_id) as quantity'
                     );
@@ -3720,10 +3718,10 @@ class Results
                 ->user
                 ->current_society_id)
                 ->selectRaw('
-                CASE WHEN SUM(weight) > 0 
-                THEN SUM(score) / SUM(CAST(weight AS FLOAT)) 
-                ELSE null 
-                END AS score, 
+                CASE WHEN SUM(weight) > 0
+                THEN SUM(score) / SUM(CAST(weight AS FLOAT))
+                ELSE null
+                END AS score,
                 COUNT(distinct wave_target_id) as quantity')
                 ->where('scoring', true)
                 ->whereNotNull('score');
@@ -3746,10 +3744,10 @@ class Results
                 ->user
                 ->current_society_id)
                 ->selectRaw('
-                CASE WHEN SUM(' . $this->score_method . 'weight) > 0 
-                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT)) 
-                ELSE null 
-                END AS score, 
+                CASE WHEN SUM(' . $this->score_method . 'weight) > 0
+                THEN SUM(' . $this->score_method . 'score) / SUM(CAST(' . $this->score_method . 'weight AS FLOAT))
+                ELSE null
+                END AS score,
                 COUNT(distinct wave_target_id) as quantity')
                 ->where('scoring', true)
                 ->whereNotNull('score')
@@ -3790,7 +3788,7 @@ class Results
         return $name;
     }
 
-    private function previousWave()
+    private function previousWave(): ?array
     {
         $wave_id = $this->filters['wave'];
         if (!$wave_id) return null;
@@ -3814,7 +3812,7 @@ class Results
         return $waves;
     }
 
-    function array_flatten($array = null)
+    public function array_flatten($array = null): array
     {
         $result = array();
 

@@ -82,7 +82,7 @@ namespace App\Models;
  * @property-read \App\Models\Survey|null $quiz
  * @property-read \App\Models\User|null $reviewer
  * @property-read \App\Models\Scenario|null $scenario
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @property-read \App\Models\Survey|null $survey
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tags[] $tag
  * @property-read \App\Models\Tags $tags

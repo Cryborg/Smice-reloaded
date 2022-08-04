@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Classes\Helpers\ArrayHelper;
 use App\Classes\MockUp;
 use App\Exceptions\SmiceException;
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iREST;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +56,7 @@ use Illuminate\Support\Facades\Validator;
  * @property-read \App\Models\Question $question
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scenario[] $scenarios
  * @property-read \App\Models\Sequence $sequence
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shop[] $shops
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Shops\Models\Shop[] $shops
  * @property-read \App\Models\Survey $survey
  * @property-read \App\Models\Theme|null $theme
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Group\Models\Group[] $groups

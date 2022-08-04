@@ -7,27 +7,21 @@ use App\Classes\Helpers\ArrayHelper;
 use App\Classes\Helpers\DateHelper;
 use App\Classes\Helpers\FusionHelper;
 use App\Classes\Helpers\GraphHelper;
-use App\Http\Controllers\ScoreController;
-use App\Models\GraphTemplate;
 use App\Http\Controllers\GraphFilterController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Shops\Models\Shop;
 use App\Models\Alias;
 use App\Models\Dashboard;
 use App\Models\Graph;
-use App\Models\GroupWave;
+use App\Models\GraphTemplate;
 use App\Models\Question;
 use App\Models\Scenario;
-use App\Models\Shop;
 use App\Models\User;
 use App\Models\Wave;
 use App\Models\WaveGroupWave;
-
-use App\Models\GraphFilterCache;
-use App\Models\ShopCache;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Response;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Webpatser\Uuid\Uuid;
 
 class GraphTemplateService
@@ -1596,8 +1590,8 @@ class GraphTemplateService
         foreach ($gw as $w) {
             $waves[] = $w['wave_id'];
         }
-        return $waves; 
-        
+        return $waves;
+
     }
 
     /**
@@ -2195,10 +2189,10 @@ class GraphTemplateService
         $result = \DB::table('show_scoring_' . $society_id)
             ->select('shop_name', 'shop_id')
             ->selectRaw('
-                CASE WHEN SUM(score) > 0 
-                THEN SUM(score) / SUM(CAST(weight AS FLOAT)) 
-                ELSE null 
-                END AS score, 
+                CASE WHEN SUM(score) > 0
+                THEN SUM(score) / SUM(CAST(weight AS FLOAT))
+                ELSE null
+                END AS score,
                 COUNT(wave_target_id) as quantity')
             ->where('scoring', true)
             ->groupBy('shop_name', 'shop_id');
@@ -2222,9 +2216,9 @@ class GraphTemplateService
         $result = \DB::table('show_scoring_' . $society_id)
             ->select('shop_name', 'scenario_name')
             ->selectRaw('
-                CASE WHEN SUM(score) > 0 
-                THEN SUM(score) / SUM(CAST(weight AS FLOAT)) 
-                ELSE null 
+                CASE WHEN SUM(score) > 0
+                THEN SUM(score) / SUM(CAST(weight AS FLOAT))
+                ELSE null
                 END AS score')
             ->whereNotNull('scenario_name')
             ->where('scoring', true)
@@ -3071,7 +3065,7 @@ class GraphTemplateService
 
 
 
-        //hot fix 
+        //hot fix
         $filter = static::fixFilter($filter);
         $alias = Alias::select('filters')->where('society_id', $society_id)->first()->toArray();
         $alias = json_decode($alias['filters'], true);

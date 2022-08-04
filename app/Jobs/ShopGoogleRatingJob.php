@@ -2,12 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Jobs\Job;
-use App\Models\Shop;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Http\Shops\Models\Shop;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ShopGoogleRatingJob extends Job implements SelfHandling, ShouldQueue
 {

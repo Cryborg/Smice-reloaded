@@ -2,16 +2,16 @@
 
 namespace App\Classes\Services;
 
-use App\Exceptions\SmiceException;
 use App\Classes\Helpers\ArrayHelper;
 use App\Classes\MissionFilter;
+use App\Exceptions\SmiceException;
 use App\Hooks\Hook;
 use App\Hooks\HookTargetsLaunched;
-use App\Models\Shop;
+use App\Http\Shops\Models\Shop;
 use App\Models\Wave;
 use App\Models\WaveTarget;
-use App\Models\WaveUser;
 use App\Models\WaveTargetAnonymous;
+use App\Models\WaveUser;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Webpatser\Uuid\Uuid;
@@ -241,10 +241,10 @@ class WaveTargetService extends SmiceService
             $missions = $missions->leftJoin('user', function ($join) use ($wave_target_table) {
                 $join->on($wave_target_table . '.user_id', '=', 'user.id');
                 })->select($wave_target_table . '.*', 'user.email as email', 'user.phone as phone');
-            
-        }  
+
+        }
         $missions->orderby('id', 'desc');
-        
+
         return $missions;
     }
 

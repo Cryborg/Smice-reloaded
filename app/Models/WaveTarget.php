@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Exceptions\SmiceException;
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -83,7 +83,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Survey|null $quiz
  * @property-read \App\Models\User|null $reviewer
  * @property-read \App\Models\Scenario|null $scenario
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @property-read \App\Models\Survey|null $survey
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tags[] $tag
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\WaveTargetHistory[] $waveTargetHistory

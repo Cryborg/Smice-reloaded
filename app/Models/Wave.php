@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Classes\MissionFilter;
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use Carbon\Carbon;
@@ -42,7 +43,7 @@ use Webpatser\Uuid\Uuid;
  * @property \Carbon\Carbon $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mission[] $missions
  * @property-read \App\Models\Program $program
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shop[] $shops
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Shops\Models\Shop[] $shops
  * @property-read \App\Models\Society $society
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\WaveTarget[] $targets
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()

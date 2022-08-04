@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
+
 /**
  * App\Models\ShopCache
  *
  * @property string|null $uuid
  * @property int $shopid
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel relations()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieve()

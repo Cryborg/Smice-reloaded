@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
+
 /**
  * App\Models\LogTarget
  *
@@ -15,7 +17,7 @@ namespace App\Models;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Models\Program $program
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Wave $wave
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()

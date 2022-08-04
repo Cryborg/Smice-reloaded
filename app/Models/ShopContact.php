@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iREST;
 
 /**
@@ -15,7 +16,7 @@ use App\Interfaces\iREST;
  * @property string|null $phone
  * @property string|null $phone_mobile
  * @property string|null $email
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ShopContact whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ShopContact whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ShopContact whereId($value)

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Classes\Helpers\NotificationHelper;
+use App\Classes\SmiceClasses\SmiceMailSystem;
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use Carbon\Carbon;
-use App\Classes\SmiceClasses\SmiceMailSystem;
 
 
 /**
@@ -42,7 +43,7 @@ use App\Classes\SmiceClasses\SmiceMailSystem;
  * @property-read \App\Models\Criteria|null $criteria
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ActionplanHistory[] $history
  * @property-read \App\Models\Sequence|null $sequence
- * @property-read \App\Models\Shop|null $shop
+ * @property-read \App\Http\Shops\Models\Shop|null $shop
  * @property-read \App\Models\ActionplanStatus|null $status
  * @property-read \App\Models\ActionplanType|null $type
  * @property-read \App\Models\User $updatedBy

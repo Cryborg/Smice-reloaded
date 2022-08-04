@@ -3,13 +3,14 @@
 namespace App\Http\User\Models;
 
 use App\Classes\Helpers\GeoHelper;
-use App\Classes\Permissions\Permissions;
 use App\Classes\Services\UserService;
 use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Exceptions\SmiceException;
 use App\Http\Country\Models\Country;
 use App\Http\Group\Models\Group;
 use App\Http\Role\Models\Role;
+use App\Http\Role\Permissions\Permissions;
+use App\Http\Shop\Models\Shop;
 use App\Http\Skill\Models\Skill;
 use App\Jobs\UserProfileScoreJob;
 use App\Models\Dashboard;
@@ -17,7 +18,6 @@ use App\Models\Gain;
 use App\Models\Language;
 use App\Models\Payment;
 use App\Models\Program;
-use App\Models\Shop;
 use App\Models\SmiceModel;
 use App\Models\Society;
 use App\Models\TodoistUser;
@@ -606,6 +606,9 @@ class User extends SmiceModel implements JWTSubject, Authenticatable
 
             AllowedFilter::scope('groups'),
             AllowedFilter::exact('groups.id'),
+
+            AllowedFilter::scope('shops'),
+            AllowedFilter::exact('shops.id'),
         ];
     }
 }

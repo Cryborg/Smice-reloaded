@@ -12,6 +12,7 @@ use App\Classes\SmiceClasses\SmiceFinder;
 use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Exceptions\SmiceException;
 use App\Http\Group\Models\Group;
+use App\Http\Shops\Models\Shop;
 use App\Http\Skill\Models\Skill;
 use App\Http\Skill\Requests\AddSkillsRequest;
 use App\Http\Skill\Resources\SkillResourceCollection;
@@ -24,7 +25,6 @@ use App\Jobs\UserMessageJob;
 use App\Models\Alias;
 use App\Models\Answer;
 use App\Models\Role;
-use App\Models\Shop;
 use App\Models\Society;
 use App\Models\Survey;
 use App\Models\WaveTarget;
@@ -124,15 +124,6 @@ class UserController extends SmiceController
         $userBuilder = QueryBuilder::for(User::class)
             ->allowedIncludes(User::allowedIncludes())
             ->allowedFilters(User::allowedFilters());
-
-//        if ($groups) {
-//            $userBuilder->whereHas(
-//                'groups',
-//                function (Builder $builder) use ($groups) {
-//                    $builder->whereIn('group_id', $groups);
-//                }
-//            );
-//        }
 
         return new UserResourceCollection(
             $userBuilder->paginate(10)

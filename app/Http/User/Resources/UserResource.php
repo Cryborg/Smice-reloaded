@@ -4,6 +4,7 @@ namespace App\Http\User\Resources;
 
 use App\Http\Group\Resources\GroupResourceCollection;
 use App\Http\Role\Resources\RoleResourceCollection;
+use App\Http\Shop\Resources\ShopResourceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -36,7 +37,9 @@ class UserResource extends JsonResource
             'roles' => new RoleResourceCollection(
                 $this->whenLoaded('roles')
             ),
-            'shops' => $this->shops?->pluck('name'),
+            'shops' => new ShopResourceCollection(
+                $this->whenLoaded('shops')
+            ),
             'country' => $this->country?->name,
         ];
     }

@@ -2,6 +2,7 @@
 namespace App\Classes;
 
 use App\Http\Country\Models\Country;
+use App\Http\Shops\Models\Shop;
 use App\Models\Axe;
 use App\Models\Civility;
 use App\Models\CriteriaA;
@@ -11,7 +12,6 @@ use App\Models\Language;
 use App\Models\Program;
 use App\Models\Question;
 use App\Models\Sequence;
-use App\Models\Shop;
 use App\Models\Society;
 use App\Models\Survey;
 use App\Models\Theme;

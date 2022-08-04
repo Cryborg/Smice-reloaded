@@ -2,8 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Jobs\Job;
-use App\Models\Shop;
+use App\Http\Shops\Models\Shop;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;

@@ -2,23 +2,21 @@
 
 namespace App\Classes\Services;
 
+use App\Classes\Helpers\ArrayHelper;
+use App\Http\Shops\Models\Shop;
 use App\Models\Answer;
 use App\Models\AnswerImage;
-use App\Models\SurveyItem;
-use App\Models\Survey;
-use App\Models\Shop;
-use App\Models\User;
 use App\Models\Society;
-use App\Models\AnswerComment;
-use App\Classes\Helpers\ArrayHelper;
-use App\Classes\Helpers\GlobalScoreHelper;
+use App\Models\Survey;
+use App\Models\SurveyItem;
+use App\Models\User;
+use Cache;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Illuminate\Support\Facades\Storage;
-use Cache;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ReportExcelService extends SmiceService
 {
@@ -73,7 +71,7 @@ class ReportExcelService extends SmiceService
             $sheet->setCellValue('G12', 'Nb de NC résolues depuis ' . $waves[0]['name2']);
         }
         $survey_id = $item['survey_id'];
-        //find company name 
+        //find company name
         $survey = Survey::find($survey_id);
         $society = Society::find($survey['society_id']);
 

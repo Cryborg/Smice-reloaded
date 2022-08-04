@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use App\Interfaces\iTranslatable;
@@ -15,7 +16,7 @@ use App\Interfaces\iTranslatable;
  * @property int $created_by
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SurveyItem[] $items
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Mission[] $missions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shop[] $shops
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Shops\Models\Shop[] $shops
  * @property-read \App\Models\Society $society
  * @property-read \App\Models\User $createdBy
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()

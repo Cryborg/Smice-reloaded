@@ -7,8 +7,8 @@ use App\Classes\Helpers\FusionHelper;
 use App\Classes\Helpers\GlobalScoreHelper;
 use App\Classes\SmiceTCPDF;
 use App\Exceptions\SmiceException;
+use App\Http\Shops\Models\Shop;
 use App\Models\Color;
-use App\Models\Shop;
 use App\Models\Survey;
 use App\Models\SurveyItem;
 use Carbon\Carbon;
@@ -131,7 +131,7 @@ class ReportImagePDF extends ReportPDF
     }
 
     protected function addSequence ($sequence, $questionsGroupedBySequence, $colors, $target, $pdf, $mission) {
-        
+
         //check if question have subsequence with question
         $present = $this->QuestionPresentInSequence($sequence, $questionsGroupedBySequence);
         if ($present) {
@@ -157,7 +157,7 @@ class ReportImagePDF extends ReportPDF
                     $pdf = $this->setImageReport($pdf, null, $sequenceName);
                 }
             }
-            
+
         }
 }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Exceptions\SmiceException;
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use Artisan;
@@ -49,7 +50,7 @@ use Illuminate\Support\Facades\DB;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Scenario[] $scenarios
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sequence[] $sequences
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shop[] $shops
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Shops\Models\Shop[] $shops
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\MailTemplate[] $templates
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Wave[] $waves

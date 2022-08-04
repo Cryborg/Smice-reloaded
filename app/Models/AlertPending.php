@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\Alert $alert
  * @property-read \App\Models\User $createdBy
  * @property-read \App\Models\Message $message
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @property-read \App\Models\WaveTarget $waveTarget
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AlertPending whereAlertId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\AlertPending whereCheckedAt($value)

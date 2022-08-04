@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
+
 /**
  * App\Models\TodoistProject
  *
@@ -12,7 +14,7 @@ namespace App\Models;
  * @property string $todoist_api_key
  * @property string $created_at
  * @property int $created_by
- * @property-read \App\Models\Shop $shop
+ * @property-read \App\Http\Shops\Models\Shop $shop
  * @property-read \App\Models\Society $society
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel relations()

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Shops\Models\Shop;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 
@@ -33,7 +34,7 @@ use App\Interfaces\iREST;
  * @property-read \App\Models\QuestionRowComment|null $questionrowcomment
  * @property-read \App\Models\Scenario|null $scenario
  * @property-read \App\Models\Sequence|null $sequence
- * @property-read \App\Models\Shop|null $shop
+ * @property-read \App\Http\Shops\Models\Shop|null $shop
  * @property-read \App\Models\Survey $survey
  * @property-read \App\Models\Question|null $targetquestion
  * @property-read \App\Models\QuestionRow|null $targetquestionrow
