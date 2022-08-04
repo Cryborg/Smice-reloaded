@@ -6,11 +6,9 @@ use App\Classes\Helpers\ArrayHelper;
 use App\Classes\MockUp;
 use App\Exceptions\SmiceException;
 use App\Interfaces\iREST;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use App\Models\LogModel;
-use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 /**
  * App\Models\SurveyItem
@@ -60,7 +58,7 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Shop[] $shops
  * @property-read \App\Models\Survey $survey
  * @property-read \App\Models\Theme|null $theme
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Group\Models\Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Theme[] $themes
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SurveyItem[] $children
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
@@ -433,7 +431,7 @@ class SurveyItem extends SmiceModel implements iREST
 
     public function groups()
     {
-        return $this->belongsToMany('App\Models\Group', 'survey_item_group');
+        return $this->belongsToMany('App\Http\Group\Models\Group', 'survey_item_group');
     }
 
     public function criterionA()

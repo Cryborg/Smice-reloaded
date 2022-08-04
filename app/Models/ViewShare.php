@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
-use App\Classes\SmiceClasses\SmiceMailSystem;
 use Illuminate\Support\Facades\DB;
-use App\Models\View;
 
 
 /**
@@ -18,7 +17,7 @@ use App\Models\View;
  * @property int|null $user_id
  * @property int|null $group_id
  * @property int $society_id
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $group
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Group\Models\Group[] $group
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $user
  * @property-read \App\Models\View $view
  * @property-read \App\Models\Society $society
@@ -99,7 +98,7 @@ class ViewShare extends SmiceModel implements iREST, iProtected
 
     public function group()
     {
-        return $this->belongsToMany('App\Models\Group');
+        return $this->belongsToMany('App\Http\Group\Models\Group');
     }
 
 

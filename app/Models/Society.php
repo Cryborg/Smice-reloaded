@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Exceptions\SmiceException;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
-use Illuminate\Support\Facades\DB;
 use Artisan;
+use Illuminate\Support\Facades\DB;
 
 
 /**
@@ -43,7 +43,7 @@ use Artisan;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Alias[] $alias
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Dashboard[] $dashboards
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AxeDirectory[] $directories
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Http\Group\Models\Group[] $groups
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Program[] $programs
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
@@ -251,7 +251,7 @@ class Society extends SmiceModel implements iREST, iProtected
 
     public function groups()
     {
-        return $this->hasMany('App\Models\Group');
+        return $this->hasMany('App\Http\Group\Models\Group');
     }
 
     public function templates()

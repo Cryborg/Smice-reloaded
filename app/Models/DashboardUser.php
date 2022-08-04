@@ -10,7 +10,7 @@ namespace App\Models;
  * @property int|null $user_id
  * @property int|null $group_id
  * @property-read \App\Models\Dashboard $dashboard
- * @property-read \App\Models\Group|null $group
+ * @property-read \App\Http\Group\Models\Group|null $group
  * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel relations()
@@ -54,6 +54,6 @@ class DashboardUser extends SmiceModel
 
     public function group()
     {
-        return $this->belongsTo('App\Models\Group');
+        return $this->belongsTo('App\Http\Group\Models\Group');
     }
 }

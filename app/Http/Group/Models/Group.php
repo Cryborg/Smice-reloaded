@@ -1,14 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Group\Models;
 
 use App\Http\User\Models\User;
 use App\Interfaces\iProtected;
 use App\Interfaces\iREST;
 use App\Interfaces\iTranslatable;
+use App\Models\SmiceModel;
+use App\Models\Society;
+use App\Traits\HasCreatedBy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Group extends SmiceModel implements iREST, iProtected, iTranslatable
 {
+    use HasCreatedBy;
+
     protected $table = 'group';
 
     protected $primaryKey = 'id';
@@ -38,38 +45,27 @@ class Group extends SmiceModel implements iREST, iProtected, iTranslatable
         'name',
     ];
 
-    protected array $rules = [
-        'society_id' => 'integer|required',
-        'name' => 'array|required',
-        'created_by' => 'integer|required',
-    ];
-
-    public static function getURI()
+    public static function getURI(): string
     {
         return 'groups';
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'group';
     }
 
-    public function getModuleName()
+    public function getModuleName(): string
     {
         return 'groups';
     }
 
-    public function society()
+    public function society(): BelongsTo
     {
         return $this->belongsTo(Society::class);
     }
 
-    public function createdBy()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
-
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'group_user');
     }

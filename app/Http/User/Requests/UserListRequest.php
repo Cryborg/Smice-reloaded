@@ -10,8 +10,8 @@ class UserListRequest extends FormRequest
     {
         return [
             'filter' => [
-                'groups' => 'array',
-                'ids' => 'array',
+                'group' => '',
+                'id' => '',
             ]
         ];
     }

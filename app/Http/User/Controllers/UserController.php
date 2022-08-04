@@ -11,6 +11,7 @@ use App\Classes\Services\UserService;
 use App\Classes\SmiceClasses\SmiceFinder;
 use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Exceptions\SmiceException;
+use App\Http\Group\Models\Group;
 use App\Http\Skill\Models\Skill;
 use App\Http\Skill\Requests\AddSkillsRequest;
 use App\Http\Skill\Resources\SkillResourceCollection;
@@ -22,7 +23,6 @@ use App\Http\User\Resources\UserResourceCollection;
 use App\Jobs\UserMessageJob;
 use App\Models\Alias;
 use App\Models\Answer;
-use App\Models\Group;
 use App\Models\Role;
 use App\Models\Shop;
 use App\Models\Society;
@@ -121,23 +121,18 @@ class UserController extends SmiceController
      */
     public function list(UserListRequest $request): UserResourceCollection
     {
-        $groups = json_decode($request->input('filter.groups'));
-        $users = json_decode($request->input('filter.ids'));
+        $userBuilder = QueryBuilder::for(User::class)
+            ->allowedIncludes(User::allowedIncludes())
+            ->allowedFilters(User::allowedFilters());
 
-        $userBuilder = QueryBuilder::for(User::class);
-
-        if ($groups) {
-            $userBuilder->whereHas(
-                'groups',
-                function (Builder $builder) use ($groups) {
-                    $builder->whereIn('group_id', $groups);
-                }
-            );
-        }
-
-        if ($users) {
-            $userBuilder->whereIn('id', $users);
-        }
+//        if ($groups) {
+//            $userBuilder->whereHas(
+//                'groups',
+//                function (Builder $builder) use ($groups) {
+//                    $builder->whereIn('group_id', $groups);
+//                }
+//            );
+//        }
 
         return new UserResourceCollection(
             $userBuilder->paginate(10)
@@ -212,17 +207,17 @@ class UserController extends SmiceController
     }
 
     /**
-     * @return Response
+     * @return UserResourceCollection
      */
-    public function getSupervisors()
+    public function getSupervisors(): UserResourceCollection
     {
-        $user = new User();
-        $user = $user->newListQuery();
-        $user->where('review_access', true);
-
-        $response = (new SmiceFinder($user, $this->params, $this->user))->get();
-
-        return new Response($response);
+        return new UserResourceCollection(
+            QueryBuilder::for(User::class)
+                ->whereHas('userPermission', function (Builder $builder) {
+                    $builder->where('review_access', true);
+                })
+                ->paginate(10)
+        );
     }
 
     /**

@@ -8,12 +8,12 @@ use App\Classes\Services\UserService;
 use App\Classes\SmiceClasses\SmiceMailSystem;
 use App\Exceptions\SmiceException;
 use App\Http\Country\Models\Country;
+use App\Http\Group\Models\Group;
 use App\Http\Role\Models\Role;
 use App\Http\Skill\Models\Skill;
 use App\Jobs\UserProfileScoreJob;
 use App\Models\Dashboard;
 use App\Models\Gain;
-use App\Models\Group;
 use App\Models\Language;
 use App\Models\Payment;
 use App\Models\Program;
@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\Translatable\HasTranslations;
 
 class User extends SmiceModel implements JWTSubject, Authenticatable
@@ -159,7 +160,6 @@ class User extends SmiceModel implements JWTSubject, Authenticatable
     ];
 
     public static array $allowedSorts = [];
-    public static array $allowedFilters = [];
 
     protected $with = [
         'country'
@@ -595,4 +595,18 @@ class User extends SmiceModel implements JWTSubject, Authenticatable
     {
         return 'remember_token';
     }
+
+    public static function allowedFilters(): array
+    {
+        return [
+            AllowedFilter::exact('id'),
+
+            AllowedFilter::scope('roles'),
+            AllowedFilter::exact('roles.id'),
+
+            AllowedFilter::scope('groups'),
+            AllowedFilter::exact('groups.id'),
+        ];
+    }
 }
+

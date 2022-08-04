@@ -2,6 +2,8 @@
 
 namespace App\Http\User\Resources;
 
+use App\Http\Group\Resources\GroupResourceCollection;
+use App\Http\Role\Resources\RoleResourceCollection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,8 +30,12 @@ class UserResource extends JsonResource
             'status_id' => $this->status_id,
             'status_name' => $this->status_name,
             'validated_mission' => $this->validated_mission,
-            'groups' => $this->groups?->pluck('name'),
-            'roles' => $this->roles?->pluck('name'),
+            'groups' => new GroupResourceCollection(
+                $this->whenLoaded('groups')
+            ),
+            'roles' => new RoleResourceCollection(
+                $this->whenLoaded('roles')
+            ),
             'shops' => $this->shops?->pluck('name'),
             'country' => $this->country?->name,
         ];

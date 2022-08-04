@@ -134,7 +134,7 @@ class Program extends SmiceModel implements iREST, iProtected, iTranslatable
 
     public function group_user()
     {
-        return $this->belongsToMany('App\Models\Group', 'program_group_user');
+        return $this->belongsToMany('App\Http\Group\Models\Group', 'program_group_user');
     }
 
     public function parent()

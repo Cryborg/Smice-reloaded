@@ -2,6 +2,7 @@
 
 namespace App\Classes\Permissions;
 
+use App\Http\Group\Models\Group;
 use App\Http\Skill\Models\Skill;
 use App\Models\Actionplan;
 use App\Models\Alert;
@@ -23,7 +24,6 @@ use App\Models\FailedJobs;
 use App\Models\Gain;
 use App\Models\Graph;
 use App\Models\GraphTemplate;
-use App\Models\Group;
 use App\Models\GroupWave;
 use App\Models\Job;
 use App\Models\Jobs;

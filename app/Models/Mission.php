@@ -427,7 +427,7 @@ class Mission extends SmiceModel implements iREST, iProtected, iTranslatable
 
     public function         mission_report_exclusion()
     {
-        return $this->belongsToMany('App\Models\Group', 'mission_report_exclusion');
+        return $this->belongsToMany('App\Http\Group\Models\Group', 'mission_report_exclusion');
     }
 
     public function checklists()

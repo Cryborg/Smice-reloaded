@@ -3,71 +3,33 @@
 namespace App\Models;
 
 use App\Classes\Permissions\Permissions;
+use App\Http\User\Models\User;
 use App\Interfaces\iProtected;
 use App\Interfaces\iPublicable;
 use App\Interfaces\iREST;
+use App\Traits\HasCreatedBy;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 
-/**
- * App\Models\Role
- *
- * @property int $id
- * @property string $name
- * @property bool $public
- * @property bool $backoffice_access
- * @property bool $field_officer
- * @property bool $advanced_mode_only
- * @property mixed $simple_permissions
- * @property mixed $advanced_permissions
- * @property mixed $backoffice_menu_permissions
- * @property int $society_id
- * @property int $created_by
- * @property string|null $description
- * @property bool $review_access
- * @property mixed $homeboard_permissions
- * @property bool $download_passage_proof
- * @property bool $import_update_user
- * @property-read \App\Models\Society $society
- * @property-read \App\Models\User $createdBy
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel addPublicResources()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel relations()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieve()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\SmiceModel retrieveAll()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereAdvancedModeOnly($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereAdvancedPermissions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereBackofficeAccess($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereBackofficeMenuPermissions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereFieldOfficer($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereHomeboardPermissions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role wherePublic($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereReviewAccess($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereSimplePermissions($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereSocietyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereDownloadPassageProof($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereImportUpdateUser($value)
- * @mixin \Eloquent
- */
 class Role extends SmiceModel implements iREST, iProtected, iPublicable
 {
-    protected $table                = 'role';
+    use HasCreatedBy;
 
-    protected $primaryKey           = 'id';
+    protected $table = 'role';
 
-    public $timestamps              = false;
+    protected $primaryKey = 'id';
 
-    protected $jsons                = [
+    public $timestamps = false;
+
+    protected array $jsons = [
         'simple_permissions',
         'advanced_permissions',
         'backoffice_menu_permissions',
         'homeboard_permissions'
     ];
 
-    protected $fillable             = [
+    protected $fillable = [
         'society_id',
         'name',
         'description',
@@ -85,13 +47,13 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
         'edit_survey'
     ];
 
-    protected $hidden               = [
+    protected $hidden = [
         'pivot',
         'society_id',
         'created_by'
     ];
 
-    protected array $list_rows            = [
+    protected array $list_rows = [
         'name',
         'public',
         'backoffice_access',
@@ -103,60 +65,59 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
         'edit_survey'
     ];
 
-    protected array $rules                = [
-        'society_id'                    => 'required|integer',
-        'public'                        => 'boolean',
-        'backoffice_access'             => 'boolean',
-        'field_officer'                 => 'boolean',
-        'review_access'                 => 'boolean',
-        'name'                          => 'required|string|unique_with:role,society_id,{id}',
-        'description'                   => 'string',
-        'created_by'                    => 'integer',
-        'simple_permissions'            => 'array',
-        'advanced_permissions'          => 'array',
-        'backoffice_menu_permissions'   => 'array',
-        'homeboard_permissions'         => 'array',
-        'download_passage_proof'        => 'boolean',
-        'import_update_user'            => 'boolean',
-        'edit_survey'                   => 'boolean'
+    protected array $rules = [
+        'society_id' => 'required|exists:society,id',
+        'public' => 'boolean',
+        'backoffice_access' => 'boolean',
+        'field_officer' => 'boolean',
+        'review_access' => 'boolean',
+        'name' => 'required|string|unique_with:role,society_id,{id}',
+        'description' => 'string',
+        'created_by' => 'integer',
+        'simple_permissions' => 'array',
+        'advanced_permissions' => 'array',
+        'backoffice_menu_permissions' => 'array',
+        'homeboard_permissions' => 'array',
+        'download_passage_proof' => 'boolean',
+        'import_update_user' => 'boolean',
+        'edit_survey' => 'boolean'
     ];
 
-    public static function getURI()
+    public static function getURI(): string
     {
         return 'roles';
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'role';
     }
 
-    public function getModuleName()
+    public function getModuleName(): string
     {
         return 'roles';
     }
 
-    static function boot()
+    public static function boot()
     {
         parent::boot();
 
-        self::creating(function(self $role)
-        {
+        self::creating(function (self $role) {
             $role->simple_permissions = Permissions::getSimplePermissions();
             $role->advanced_permissions = Permissions::generateAdvancedPermissions($role->simple_permissions);
             $role->backoffice_menu_permissions = Permissions::getBackofficeMenuPermissions();
             $role->homeboard_permissions = Permissions::getHomeboardPermissions();
         });
 
-        self::updating(function(self $role)
-        {
+        self::updating(function (self $role) {
             //$test = Permissions::generateAdvancedPermissions($role->getAttribute('simple_permissions'));
             //dd($test);
             if (!$role->advanced_mode_only &&
                 !Permissions::areDifferent(
                     $role->getAttribute('advanced_permissions'),
-                    json_decode($role->getOriginal('advanced_permissions'), true))
-            ){
+                    json_decode($role->getOriginal('advanced_permissions'), true)
+                )
+            ) {
                 $role->advanced_permissions = Permissions::generateAdvancedPermissions($role->simple_permissions);
             } else {
                 $role->advanced_mode_only = true;
@@ -165,25 +126,19 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
             $role->_deleteJsonPermissions();
         });
 
-        self::deleting(function(self $role)
-        {
+        self::deleting(function (self $role) {
             $role->_deleteJsonPermissions();
         });
     }
 
-    public function society()
+    public function society(): BelongsTo
     {
-        return $this->belongsTo('App\Models\Society');
+        return $this->belongsTo(Society::class);
     }
 
-    public function createdBy()
+    public function users(): BelongsToMany
     {
-        return$this->belongsTo('App\Models\User', 'created_by');
-    }
-
-    public function users()
-    {
-        return $this->belongsToMany('App\Models\User', 'role_user');
+        return $this->belongsToMany(User::class, 'role_user');
     }
 
     /**
@@ -194,7 +149,7 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
      * @param array $params
      * @return bool
      */
-    public function     creatingEvent(User $user, array $params = [])
+    public function creatingEvent(User $user, array $params = []): bool
     {
         if (!$user->society->is_qcm) {
             unset($this->attributes['public']);
@@ -204,7 +159,7 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
         return true;
     }
 
-    public function     updatingEvent(User $user, array $params = [])
+    public function updatingEvent(User $user, array $params = []): bool
     {
         if (!$user->society->is_qcm) {
             unset($this->attributes['public']);
@@ -214,11 +169,12 @@ class Role extends SmiceModel implements iREST, iProtected, iPublicable
         return true;
     }
 
-    private function    _deleteJsonPermissions()
+    private function _deleteJsonPermissions()
     {
-        DB::statement('UPDATE "user_permission"
+        DB::statement(
+            'UPDATE "user_permission"
           SET permissions = null, advanced_permissions = null, backoffice_menu_permissions = null, homeboard_permissions = null
-          WHERE user_id IN (SELECT user_id FROM role_user WHERE role_id = '. $this->getKey() . ')'
+          WHERE user_id IN (SELECT user_id FROM role_user WHERE role_id = ' . $this->getKey() . ')'
         );
     }
 }
